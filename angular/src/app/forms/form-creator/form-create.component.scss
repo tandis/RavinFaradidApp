@@ -1,0 +1,33 @@
+/* form-create.component.scss */
+:host {
+  display: block;
+  // Ensure the component takes up the full height of its parent container
+  height: 100%;
+  width: 100%;
+}
+
+.survey-container{
+  margin: -1.25em -2em -3em;
+}
+.lpx-content-container .lpx-content {
+    margin: -1.25em -2em -3em !important;
+        padding: 0px !important;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+.meta-form {
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(8px);
+  border-radius: 16px;
+  padding: 16px;
+}
+.creator-wrap {
+  flex: 1;
+  min-height: 320px;
+  .svc-creator { height: 100%; } /* برای پر کردن ارتفاع */
+}
+.actions { justify-content: flex-start; }

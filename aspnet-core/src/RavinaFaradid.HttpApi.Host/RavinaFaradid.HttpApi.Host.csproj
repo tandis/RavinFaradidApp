@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <RootNamespace>RavinaFaradid</RootNamespace>
+    <PreserveCompilationReferences>true</PreserveCompilationReferences>
+    <UserSecretsId>RavinaFaradid-4681b4fd-151f-4221-84a4-929d86723e4c</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
+    <PackageReference Include="Serilog.Sinks.Async" Version="2.1.0" />
+    <PackageReference Include="Volo.Abp.AspNetCore.MultiTenancy" Version="9.3.4" />
+    <PackageReference Include="Volo.Abp.Autofac" Version="9.3.4" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Serilog" Version="9.3.4" />
+    <PackageReference Include="Volo.Abp.Swashbuckle" Version="9.3.4" />
+    <PackageReference Include="Volo.Abp.Account.Web.OpenIddict" Version="9.3.4" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.*" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite" Version="4.1.0-preview*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\modules\Forms\Forms.Application.Contracts\Forms.Application.Contracts.csproj" />
+    <ProjectReference Include="..\..\modules\Forms\Forms.Domain.Shared\Forms.Domain.Shared.csproj" />
+    <ProjectReference Include="..\..\modules\Forms\Forms.Domain\Forms.Domain.csproj" />
+    <ProjectReference Include="..\RavinaFaradid.Application\RavinaFaradid.Application.csproj" />
+    <ProjectReference Include="..\RavinaFaradid.EntityFrameworkCore\RavinaFaradid.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\RavinaFaradid.HttpApi\RavinaFaradid.HttpApi.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+  <ProjectReference Include="..\..\modules\Forms\Forms.Application\Forms.Application.csproj" />
+  <ProjectReference Include="..\..\modules\Forms\Forms.EntityFrameworkCore\Forms.EntityFrameworkCore.csproj" />
+  <ProjectReference Include="..\..\modules\Forms\Forms.HttpApi\Forms.HttpApi.csproj" />
+</ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Logs\**" />
+    <Content Remove="Logs\**" />
+    <EmbeddedResource Remove="Logs\**" />
+    <None Remove="Logs\**" />
+  </ItemGroup>
+
+</Project>

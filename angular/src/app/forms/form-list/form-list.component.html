@@ -1,0 +1,41 @@
+<h2>{{ 'RavinaFaradid::Forms:Title' | abpLocalization }}</h2>
+
+<button class="btn btn-primary mb-2" (click)="create()">
+  {{ 'RavinaFaradid::Forms:New' | abpLocalization: 'FormsResource' }}
+</button>
+
+<ngx-datatable
+  class="material"
+  [rows]="forms"
+  [loadingIndicator]="loading"
+  [columnMode]="'force'"
+  [headerHeight]="50"
+  [footerHeight]="50"
+  [rowHeight]="'auto'">
+
+  <ngx-datatable-column [name]="'RavinaFaradid::Forms:Title' | abpLocalization" prop="title"></ngx-datatable-column>
+
+  <ngx-datatable-column [name]="'RavinaFaradid::Forms:Description' | abpLocalization" prop="description"></ngx-datatable-column>
+
+  <ngx-datatable-column [name]="'RavinaFaradid::Forms:Active' | abpLocalization">
+    <ng-template let-row="row" ngx-datatable-cell-template>
+      <span *ngIf="row.isActive">✅</span>
+      <span *ngIf="!row.isActive">❌</span>
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column [name]="'RavinaFaradid::Forms:Operations' | abpLocalization">
+    <ng-template let-row="row" ngx-datatable-cell-template>
+      <button class="btn btn-sm btn-secondary" (click)="edit(row.id)">
+        {{ 'RavinaFaradid::Forms:Edit' | abpLocalization }}
+      </button>
+      <button class="btn btn-sm btn-info" (click)="view(row.id)">
+        {{ 'RavinaFaradid::Forms:View' | abpLocalization }}
+      </button>
+      <button class="btn btn-sm btn-danger" (click)="remove(row.id)">
+        {{ 'RavinaFaradid::Forms:Delete' | abpLocalization }}
+      </button>
+    </ng-template>
+  </ngx-datatable-column>
+
+</ngx-datatable>

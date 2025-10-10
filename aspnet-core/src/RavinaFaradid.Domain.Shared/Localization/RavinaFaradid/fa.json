@@ -1,0 +1,23 @@
+{
+  "culture": "fa",
+  "texts": {
+    "AppName": "راوینا فرادید",
+    "Menu:Home": "خانه",
+    "Welcome": "خوش آمدید",
+    "Permission:Forms": "فرم‌ها",
+    "Permission:Forms.Manage": "مدیریت فرم‌ها",
+    "Permission:Forms.Responses": "دسترسی به پاسخ‌ها",
+    "Forms:Title": "📋 لیست فرم‌ها",
+    "Forms:New": "➕ فرم جدید",
+    "Forms:Description": "توضیحات",
+    "Forms:Active": "فعال",
+    "Forms:Operations": "عملیات",
+    "Forms:Edit": "✏️ ویرایش",
+    "Forms:View": "👁️ نمایش",
+    "Forms:Delete": "🗑️ حذف",
+    "Forms:ConfirmDelete": "آیا مطمئن هستید؟",
+    "Forms:Templates": "تمپلت‌ها",
+    "Forms:Responses": "پاسخ‌ها",
+    "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io."
+  }
+}

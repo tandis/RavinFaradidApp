@@ -1,0 +1,52 @@
+<div class="sv-persian-calendar" [class.sv-readonly]="model?.isReadOnly">
+  <div class="sv-persian-calendar-input"
+       (click)="toggleCalendar($event)"
+       [class.sv-invalid]="model?.errors?.length > 0">
+    <input type="text"
+        [(ngModel)]="displayValue"
+           (click)="toggleCalendar($event)"
+           [placeholder]="model?.placeholder || 'تاریخ را انتخاب کنید'"
+           class="sd-input"
+           readonly>
+    <span class="calendar-icon">📅</span>
+  </div>
+
+  <div class="sv-persian-calendar-popup"
+       *ngIf="showCalendar && !model?.isReadOnly"
+       (click)="$event.stopPropagation()">
+    <div class="calendar-header">
+      <button type="button" class="nav-btn" (click)="previousMonth()">&lt;</button>
+      <div class="month-year">
+        <select [(ngModel)]="currentYear" (ngModelChange)="updateCalendar()" class="year-select">
+          <option *ngFor="let year of availableYears" [value]="year">{{ year }}</option>
+        </select>
+        <select [(ngModel)]="currentMonth" (ngModelChange)="updateCalendar()" class="month-select">
+          <option *ngFor="let month of months" [value]="month.value">{{ month.name }}</option>
+        </select>
+      </div>
+      <button type="button" class="nav-btn" (click)="nextMonth()">&gt;</button>
+    </div>
+
+    <div class="calendar-weekdays">
+      <div class="weekday" *ngFor="let day of weekDays">{{ day }}</div>
+    </div>
+
+    <div class="calendar-days">
+      <div
+        *ngFor="let day of calendarDays"
+        class="calendar-day"
+        [class.other-month]="!day.isCurrentMonth"
+        [class.selected]="day.isSelected"
+        [class.today]="day.isToday"
+
+        (click)="selectDate(day)">
+        {{ day.day }}
+      </div>
+    </div>
+
+    <div class="calendar-footer">
+      <button type="button" class="btn-today" (click)="selectToday()">امروز</button>
+      <button type="button" class="btn-clear" (click)="clearDate()">پاک کردن</button>
+    </div>
+  </div>
+</div>

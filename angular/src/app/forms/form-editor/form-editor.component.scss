@@ -1,0 +1,43 @@
+:host {
+  display: block;
+  // Ensure the component takes up the full height of its parent container
+  height: 100%;
+  width: 100%;
+}
+
+.survey-container{
+  margin: -1.25em -2em -3em;
+}
+
+.viewer-shell { max-width: 960px; margin: 16px auto; padding: 16px; }
+
+.viewer-header .title-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.title { margin: 0; font-size: 1.375rem; font-weight: 700; }
+
+.chips { display:flex; gap:8px; align-items:center; flex-wrap: wrap; }
+.chip { padding: 4px 10px; border-radius: 999px; font-size: .85rem; background: #eceff1; }
+.chip.published { background: #e3f2fd; color: #0d47a1; }
+.chip.draft { background: #fff3e0; color: #e65100; }
+.chip.subtle { background: #f5f5f5; color: #555; }
+
+.meta { margin-top: 6px; color: #666; font-size: .85rem; }
+
+.state { margin: 12px 0; }
+.state.error { color: #b00020; }
+
+.viewer-footer {
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.btn { border: 0; padding: 8px 14px; border-radius: 8px; cursor: pointer; }
+.btn.ghost { background: #f1f3f4; }

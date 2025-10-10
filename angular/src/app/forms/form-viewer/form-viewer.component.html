@@ -1,0 +1,32 @@
+<div class="viewer-shell" [dir]="dir()">
+  <header class="viewer-header" *ngIf="form() as f">
+    <div class="title-row">
+      <h2 class="title">{{ f.title }}</h2>
+
+      <div class="chips">
+        <span class="chip" [class.published]="f.isPublished" [class.draft]="!f.isPublished">
+          {{ f.isPublished ? 'منتشر شده' : 'پیش‌نویس' }}
+        </span>
+        <span class="chip" *ngIf="f.publishedVersion">
+          نسخه {{ f.publishedVersion?.version }}
+        </span>
+        <span class="chip subtle" *ngIf="f.category">دسته: {{ f.category }}</span>
+      </div>
+    </div>
+    <div class="meta" *ngIf="f.publishedVersion?.updatedAt">
+      آخرین بروزرسانی نسخه: {{ f.publishedVersion?.updatedAt | date:'medium' }}
+    </div>
+  </header>
+
+  <div class="state" *ngIf="loading()">در حال بارگذاری…</div>
+  <div class="state error" *ngIf="error()">{{ error() }}</div>
+
+  <ng-container *ngIf="surveyModel() as sm">
+    <survey [model]="sm"></survey>
+  </ng-container>
+
+  <footer class="viewer-footer" *ngIf="surveyModel()">
+    <button class="btn ghost" type="button" (click)="onCancel()">انصراف</button>
+  </footer>
+</div>
+

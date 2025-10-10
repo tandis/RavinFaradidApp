@@ -1,0 +1,21 @@
+{
+  "culture": "en",
+  "texts": {
+    "AppName": "RavinaFaradid",
+    "Menu:Home": "Home",
+    "Welcome": "Welcome",
+    "Permission:Forms": "Forms",
+    "Permission:Forms.Manage": "Manage forms",
+    "Permission:Forms.Responses": "Access form responses",
+    "Forms:Title": "📋 Forms List",
+    "Forms:New": "➕ New Form",
+    "Forms:Description": "Description",
+    "Forms:Active": "Active",
+    "Forms:Operations": "Actions",
+    "Forms:Edit": "✏️ Edit",
+    "Forms:View": "👁️ View",
+    "Forms:Delete": "🗑️ Delete",
+    "Forms:ConfirmDelete": "Are you sure?",
+    "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io."
+  }
+}

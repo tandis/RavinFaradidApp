@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <Import Project="..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <RootNamespace>RavinaFaradid</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\RavinaFaradid.Domain\RavinaFaradid.Domain.csproj" />
+    <ProjectReference Include="..\RavinaFaradid.TestBase\RavinaFaradid.TestBase.csproj" />
+  </ItemGroup>
+
+</Project>
