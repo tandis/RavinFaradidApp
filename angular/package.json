@@ -38,6 +38,7 @@
     "survey-angular-ui": "^2.3.9",
     "survey-core": "^2.3.9",
     "survey-creator-angular": "^2.3.9",
+    "sweetalert2": "^11.26.2",
     "tslib": "^2.0.0",
     "zone.js": "~0.15.0"
   },

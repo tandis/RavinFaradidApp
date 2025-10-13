@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Volo.Abp.Localization;
 
-namespace Forms.Domain.Shared.Localization
+namespace RavinaFaradid.Forms.Domain.Shared.Localization
 {
     [LocalizationResourceName("Forms")]
     public class FormsResource

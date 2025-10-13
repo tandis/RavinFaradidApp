@@ -3,8 +3,9 @@ using Volo.Abp.AspNetCore.Mvc;
 using Localization.Resources.AbpUi;
 using static RavinaFaradid.Forms.FormsDomainSharedModule;
 using Volo.Abp.Localization;
-using Forms.Domain.Shared.Localization;
+
 using RavinaFaradid.Forms.Application;
+using RavinaFaradid.Forms.Domain.Shared.Localization;
 
 namespace RavinaFaradid.Forms
 {

@@ -14,18 +14,21 @@ import { FormResponseService } from '@proxy/forms/application/form-response.serv
 // ⬅️ مسیر ایمپورت را با پروژه‌ی خودت تنظیم کن
 import type { FormDto, FormVersionDto /* , CreateFormResponseDto */ } from '@proxy/forms/application/contracts/dtos/models';
 
-interface FormViewDto {
+interface FormViewerVersionDto {
   id: string;
+  versionNumber: number;
+  publishedAt?: string | null;
+  schemaJson: any;     // JSON پارس‌شده SurveyJS
+  themeJson?: any;
+}
+
+interface FormViewerDto {
+  formId: string;
   title: string;
   description?: string | null;
   isActive: boolean;
-  isPublished: boolean;
-  publishedVersion?: {
-    id?: string;
-    version?: number;
-    schemaJson: any;
-    updatedAt?: string;
-  } | null;
+  isAnonymousAllowed: boolean;
+  publishedVersion: FormViewerVersionDto | null;
 }
 
 @Component({
@@ -33,27 +36,24 @@ interface FormViewDto {
   standalone: true,
   imports: [CommonModule, SurveyModule],
   templateUrl: './form-viewer.component.html',
-  styleUrls: ['./form-viewer.component.css']
+  styleUrls: ['./form-viewer.component.scss']
 })
 export class FormViewerComponent implements OnInit, OnDestroy {
+
+  private destroy$ = new Subject<void>();
+
+  // state
+  loading = signal<boolean>(false);
+  error = signal<string | null>(null);
+  view  = signal<FormViewerDto | null>(null);
+  surveyModel = signal<Model | null>(null);
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private forms: FormService,
-    private responses: FormResponseService,
     private rest: RestService,
-    @Optional() @Inject('API_BASE_URL') private baseUrl?: string
+    private responses: FormResponseService
   ) {}
-
-  private destroy$ = new Subject<void>();
-
-  form = signal<FormViewDto | null>(null);
-  surveyModel = signal<Model | null>(null);
-  loading = signal<boolean>(false);
-  error = signal<string | null>(null);
-
-  dir = computed<'rtl' | 'ltr'>(() => 'rtl');
 
   ngOnInit(): void {
     this.loading.set(true);
@@ -66,13 +66,17 @@ export class FormViewerComponent implements OnInit, OnDestroy {
             this.error.set('شناسه فرم در مسیر یافت نشد.');
             return of(null);
           }
-          // ✅ اینجا نوع FormDto استفاده می‌شود تا با خروجی پروکسی هم‌خوان باشد
-          return this.forms.get(id).pipe(
-            switchMap((formDto: FormDto) => this.buildViewFromForm(formDto)),
-            tap(view => view && this.initializeSurvey(view)),
+
+          // اگر پروکسی getViewer را ساختی، می‌توانی این را جایگزین کنی:
+          // return this.forms.getViewer(id)
+          return this.rest.request<any, FormViewerDto>(
+            { method: 'GET', url: `/api/app/form/${id}/viewer` },
+            { apiName: 'Default' } as Partial<Rest.Config>
+          ).pipe(
+            tap(dto => dto && this.initialize(dto)),
             catchError(err => {
-              console.error('Load form error', err);
-              this.error.set('خطا در بارگذاری فرم.');
+              console.error('Load viewer error', err);
+              this.error.set(err?.error?.message ?? 'خطا در بارگذاری فرم.');
               return of(null);
             })
           );
@@ -82,87 +86,37 @@ export class FormViewerComponent implements OnInit, OnDestroy {
       .subscribe(() => this.loading.set(false));
   }
 
-  /** از FormDto نسخهٔ منتشرشده را می‌خوانیم و FormViewDto می‌سازیم */
-  private buildViewFromForm(form: FormDto) {
-    if (!form) return of(null);
+  /** آماده‌سازی مدل SurveyJS و اتصال ثبت پاسخ */
+  private initialize(dto: FormViewerDto) {
+    this.view.set(dto);
 
-    const isPublished = !!form.publishedVersionId;
-    const base: FormViewDto = {
-      id: form.id,
-      title: form.title ?? 'بدون عنوان',
-      description: (form as any).description ?? null, // اگر در FormDto description تعریف شده، مستقیم استفاده کن
-      isActive: (form as any).isActive ?? true,
-      isPublished,
-      publishedVersion: null
-    };
-
-    if (!isPublished || !form.publishedVersionId) {
-      return of(base);
-    }
-
-    // نسخهٔ منتشرشده را با ID بخوان
-    return this.getFormVersionById(form.publishedVersionId).pipe(
-      map((ver: FormVersionDto | null) => {
-        if (!ver) return base;
-        const updatedAt =
-          (ver as any).lastModificationTime ||
-          (ver as any).creationTime ||
-          undefined;
-
-        return {
-          ...base,
-          publishedVersion: {
-            id: ver.id,
-            version: (ver as any).version,
-            updatedAt,
-            schemaJson: this.ensureObject((ver as any).jsonDefinition)
-          }
-        } as FormViewDto;
-      }),
-      catchError(err => {
-        console.error('Load version error', err);
-        return of(base);
-      })
-    );
-  }
-
-  private getFormVersionById(versionId: string) {
-    // ✅ خروجی را FormVersionDto تایپ کن
-    return this.rest.request<any, FormVersionDto>(
-      { method: 'GET', url: `/api/app/form-version/${versionId}` },
-      { apiName: 'Default' } as Partial<Rest.Config>
-    );
-  }
-
-  private ensureObject(jsonMaybe: any): any {
-    if (!jsonMaybe) return null;
-    if (typeof jsonMaybe === 'string') {
-      try { return JSON.parse(jsonMaybe); } catch { return null; }
-    }
-    return jsonMaybe;
-  }
-
-  private initializeSurvey(view: FormViewDto | null) {
-    if (!view) return;
-    this.form.set(view);
-
-    if (!view.isPublished || !view.publishedVersion?.schemaJson) {
-      this.error.set('این فرم هنوز منتشر نشده یا اسکیمای معتبر ندارد.');
+    if (!dto.isActive) {
+      this.error.set('این فرم غیرفعال است.');
       this.surveyModel.set(null);
       return;
     }
 
-    const model = new Model(view.publishedVersion.schemaJson);
-    model.locale = 'fa';
+    if (!dto.publishedVersion?.schemaJson) {
+      this.error.set('نسخهٔ منتشرشده برای این فرم در دسترس نیست.');
+      this.surveyModel.set(null);
+      return;
+    }
+
+    const model = new Model(dto.publishedVersion.schemaJson);
+    model.locale = 'fa' as any;
     (model as any).rtl = true;
 
     model.onComplete.add((sender) => {
-      const f = this.form();
-      if (!f) return;
+      const v = this.view();
+      if (!v?.publishedVersion?.id) return;
 
-      // اگر نوع دقیق CreateFormResponseDto را داری، از آن استفاده کن
-      // const payload: CreateFormResponseDto = { formId: f.id, versionId: f.publishedVersion?.id!, answers: sender.data };
-      const payload: any = { formId: f.id, versionId: f.publishedVersion?.id, answers: sender.data };
+      // اگر CreateFormResponseDto را داری، به همان تایپ تغییر بده
+      const payload: any /* CreateFormResponseDto */ = {
+        formId: v.formId,
+        formVersionId: v.publishedVersion.id,
+        // با توجه به اسکیمای DB (ResponseData NVARCHAR(MAX) + CHECK isjson) بهتره string بفرستیم
+        responseData: JSON.stringify(sender.data)
+      };
 
       this.loading.set(true);
       this.responses.create(payload)
@@ -174,7 +128,7 @@ export class FormViewerComponent implements OnInit, OnDestroy {
           catchError(err => {
             console.error('Submit error', err);
             this.loading.set(false);
-            this.error.set('در ارسال پاسخ مشکلی پیش آمد.');
+            this.error.set(err?.error?.message ?? 'در ارسال پاسخ مشکلی پیش آمد.');
             return of(null);
           }),
           takeUntil(this.destroy$)
@@ -187,7 +141,8 @@ export class FormViewerComponent implements OnInit, OnDestroy {
 
   onCancel() {
     if (window.history.length > 1) {
-      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => window.history.back());
+      this.router.navigateByUrl('/', { skipLocationChange: true })
+        .then(() => window.history.back());
     } else {
       this.router.navigate(['/forms']);
     }

@@ -14,6 +14,9 @@
     "Forms:Delete": "🗑️ حذف",
     "Forms:ConfirmDelete": "آیا مطمئن هستید؟",
     "Forms:Templates": "تمپلت‌ها",
-    "Forms:Responses": "پاسخ‌ها"
+    "Forms:Responses": "پاسخ‌ها",
+    "Forms:Save": "ذخیره فرم",
+    "Forms:SaveDraft": "دخیره موقت",
+    "Forms:ClearDraft":  "حذف ذخیره موقت"
   }
 }

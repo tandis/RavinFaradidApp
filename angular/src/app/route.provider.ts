@@ -22,6 +22,7 @@ function configureRoutes(routesService: RoutesService) {
         iconClass: 'fa fa-wpforms',
         order: 200,
         layout: eLayoutType.application,
+        requiredPolicy: 'RavinaForms.Forms'
       },
 
       // 🔹 زیرمنو: لیست فرم‌ها
@@ -31,6 +32,7 @@ function configureRoutes(routesService: RoutesService) {
         parentName: '::Permission:Forms',
         order: 1,
         iconClass: 'fa fa-list',
+        requiredPolicy: 'RavinaForms.Forms'
       },
 
       // 🔹 زیرمنو: سازنده فرم
@@ -40,6 +42,7 @@ function configureRoutes(routesService: RoutesService) {
         parentName: '::Permission:Forms',
         order: 2,
         iconClass: 'fa fa-pencil-alt',
+        requiredPolicy: 'RavinaForms.Forms.Create'
       },
 
       // 🔹 زیرمنو: تمپلت‌ها

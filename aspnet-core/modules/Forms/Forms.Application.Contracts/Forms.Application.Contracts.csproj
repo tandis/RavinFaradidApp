@@ -2,8 +2,8 @@
   <PropertyGroup><TargetFramework>net9.0</TargetFramework></PropertyGroup>
   <ItemGroup>
 	  <PackageReference Include="Abp.AutoMapper" Version="10.3.0" />
-	  <PackageReference Include="Volo.Abp.AutoMapper" Version="9.3.4" />
-    <PackageReference Include="Volo.Abp.Ddd.Application.Contracts" Version="9.3.4" />
+	  <PackageReference Include="Volo.Abp.AutoMapper" Version="9.3.5" />
+    <PackageReference Include="Volo.Abp.Ddd.Application.Contracts" Version="9.3.5" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Forms.Domain\Forms.Domain.csproj" />

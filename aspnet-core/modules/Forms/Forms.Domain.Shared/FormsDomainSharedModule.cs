@@ -1,4 +1,4 @@
-﻿using Forms.Domain.Shared.Localization;
+﻿using RavinaFaradid.Forms.Domain.Shared.Localization;
 using Localization.Resources.AbpUi;
 using Volo.Abp.Authorization;
 using Volo.Abp.Localization;

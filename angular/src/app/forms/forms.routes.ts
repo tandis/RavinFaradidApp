@@ -6,7 +6,7 @@ import { FormResponseListComponent } from './form-response-list.component';
 import { FormTemplateListComponent } from './form-template/form-template-list.component';
 import { PendingChangesGuard } from './pending-changes.guard'
 export const formsRoutes: Routes = [
-  { path: 'list', component: FormListComponent },
+  { path: 'list', component: FormListComponent},
   {
   path: 'create',
   canDeactivate: [PendingChangesGuard],

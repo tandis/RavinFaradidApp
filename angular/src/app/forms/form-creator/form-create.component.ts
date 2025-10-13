@@ -1,32 +1,52 @@
 import {
   Component, OnInit, AfterViewInit, OnDestroy,
-  ViewChild, ElementRef, inject, effect, computed,
-  HostListener
+  ViewChild, ElementRef, inject, HostListener
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FormService } from '@proxy/forms/application';
-import { CreateUpdateFormDto , FormDto} from '@proxy/forms/application/contracts/dtos';
+import { CreateUpdateFormDto , FormDto } from '@proxy/forms/application/contracts/dtos';
 import { SurveyCreatorModel } from 'survey-creator-core';
 import { SurveyCreatorModule } from 'survey-creator-angular';
-import { LocalizationPipe, PermissionDirective, ConfigStateService } from '@abp/ng.core';
+import { LocalizationPipe, ConfigStateService, LocalizationService } from '@abp/ng.core';
 import { ToasterService } from '@abp/ng.theme.shared';
 import { DirtyAware } from '../pending-changes.guard';
+import Swal from 'sweetalert2';
+
+// کلیدهای لوکالایزیشن در یک آبجکت واحد
+const LK = {
+  PublishConfirmTitle: 'RavinaFaradid::Forms:PublishConfirmTitle',
+  PublishConfirmText:  'RavinaFaradid::Forms:PublishConfirmText',
+  PublishConfirmBtn:   'RavinaFaradid::Forms:PublishConfirmBtn',
+  Cancel:              'RavinaFaradid::Forms:Cancel',
+  DraftSaved:          'RavinaFaradid::Forms:DraftSaved',
+  SavedAndPublished:   'RavinaFaradid::Forms:SavedAndPublished',
+  DefaultErrorMessage: 'RavinaFaradid::Forms:DefaultErrorMessage',
+  ValidationError:     'RavinaFaradid::Forms:ValidationErrorMessage',
+  UnsavedChanges:      'RavinaFaradid::Forms:UnsavedChanges',
+  Saved:               'RavinaFaradid::Forms:Saved',
+  RestoreDraftTitle:   'RavinaFaradid::Forms:RestoreDraftTitle',
+  RestoreDraftText:    'RavinaFaradid::Forms:RestoreDraftText',   // مثال: "یک پیش‌نویس در {0} پیدا شد..."
+  RestoreButton:       'RavinaFaradid::Forms:RestoreButton',
+  DiscardButton:       'RavinaFaradid::Forms:DiscardButton',
+  AutoSavedAt:         'RavinaFaradid::Forms:AutoSavedAt',
+  SaveAndPublishBtn:   'RavinaFaradid::Forms:PublishConfirmBtn',
+  SaveDraft:            'RavinaFaradid::Forms:SaveDraft'
+} as const;
+
+// ✅ ثابت‌ها برای ذخیرهٔ محلی
+const DRAFT_KEY = 'form-create-draft';
+const FORM_ID_KEY = 'form-create-formId';
+const AUTO_SAVE_DELAY = 1200; // ms
 
 @Component({
   selector: 'app-form-create',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    SurveyCreatorModule, // <survey-creator>
-    LocalizationPipe
-],
+  imports: [CommonModule, ReactiveFormsModule, SurveyCreatorModule, LocalizationPipe],
   templateUrl: './form-create.component.html',
   styleUrls: ['./form-create.component.scss']
 })
-
 export class FormCreateComponent implements OnInit, AfterViewInit, OnDestroy, DirtyAware {
 
   @ViewChild('creatorContainer') containerRef!: ElementRef<HTMLDivElement>;
@@ -36,75 +56,76 @@ export class FormCreateComponent implements OnInit, AfterViewInit, OnDestroy, Di
   private toaster = inject(ToasterService);
   private formService = inject(FormService);
   private configState = inject(ConfigStateService);
-  private syncing = false;
-  private get survey(): any {
-    return (this.creator as any)?.survey;
-  }
+  private localization = inject(LocalizationService);
+
+  // برای استفاده از کلیدها در template
+  LK = LK;
 
   creator!: SurveyCreatorModel;
   dirty = false;
-  private resizeObs?: ResizeObserver;
 
-  // فرم متادیتا (عنوان و توضیح)
+  private resizeObs?: ResizeObserver;
+  private boundAdjustHeight = this.adjustHeight.bind(this);
+
+  // نگهداری شناسه فرم (اول create، بعداً update)
+  private formId: string | null = localStorage.getItem('form-create-formId');
+
+  // فرم متادیتا
   metaForm = this.fb.group({
     title: ['', [Validators.required, Validators.maxLength(128)]],
     description: ['', [Validators.maxLength(1024)]],
     isActive: [true],
   });
 
+  // میانبر ترجمه
+  private l(key: string, ...args: any[]) {
+    return this.localization.instant(key, ...args);
+  }
+
   ngOnInit(): void {
-    // گزینه‌های Creator
     this.creator = new SurveyCreatorModel({
       showLogicTab: true,
       showThemeTab: true,
-      // ابزارهای متداول:
       showJSONEditorTab: true,
       isAutoSave: false,
-
     });
 
-    // تغییرات باعث Dirty شود
+    (this.creator as any).showSaveButton = false;
     this.creator.onModified.add(() => { this.dirty = true; });
 
-    this.loadDraftFromLocal();
-    // اگر RTL لازم است، سمت HTML dir را رعایت کردید؛ Creator خودش با CSS کار می‌کند.
     const culture = this.configState.getOne('localization')?.currentCulture?.cultureName ?? 'en';
     if (culture?.toLowerCase().startsWith('fa') || culture?.toLowerCase().startsWith('ar')) {
       document.documentElement.setAttribute('dir', 'rtl');
     }
 
-    this.creator.saveSurveyFunc = (saveNo: number, callback: Function) => {
-      console.log("form save")
-      this.save();
-    }
+    // اگر کسی Save داخلی را زد → پیش‌نویس
+    this.creator.saveSurveyFunc = (_saveNo: number, callback: Function) => {
+      this.saveDraft().finally(() => callback(true));
+    };
+
+    this.creator.onModified.add(() => {
+      this.dirty = true;
+      this.scheduleAutoSave();  // ← اتوسیو
+    });
+
+    //this.loadDraftFromLocal();
+     this.tryRestoreDraftFromLocal(); // 👈 بازیابی پیش‌نویس با تایید کاربر
   }
 
   ngAfterViewInit(): void {
-    // ارتفاع داینامیک (سازگار با LeptonX toolbar)
-    const adjustHeight = () => {
-      const toolbar = document.querySelector('.lpx-toolbar') as HTMLElement | null;
-      const headerH = toolbar?.offsetHeight ?? 64;
-      const h = window.innerHeight - headerH - 8;
-      if (this.containerRef?.nativeElement) {
-        this.containerRef.nativeElement.style.height = `${h}px`;
-      }
-    };
-    adjustHeight();
-
-    // واکنش به تغییر اندازه
-    this.resizeObs = new ResizeObserver(adjustHeight);
+    this.adjustHeight();
+    this.resizeObs = new ResizeObserver(this.boundAdjustHeight);
     this.resizeObs.observe(document.body);
-    window.addEventListener('resize', adjustHeight);
+    window.addEventListener('resize', this.boundAdjustHeight);
   }
 
   ngOnDestroy(): void {
     this.resizeObs?.disconnect();
-    window.removeEventListener('resize', this.adjustHeight);
-    // Survey Creator دیسپوز
+    window.removeEventListener('resize', this.boundAdjustHeight);
     (this.creator as any)?.dispose?.();
   }
 
-   hasUnsavedChanges(): boolean {
+  hasUnsavedChanges(): boolean {
     return this.dirty || !!localStorage.getItem('form-create-draft');
   }
 
@@ -117,80 +138,201 @@ export class FormCreateComponent implements OnInit, AfterViewInit, OnDestroy, Di
     }
   }
 
-  save(): void {
-  //  if (this.metaForm.invalid) {
-  //     this.metaForm.markAllAsTouched();
-  //     this.toaster.error('Forms:ValidationErrorMessage');
-  //     return;
-  //   }
+  // ===== ذخیره‌ها =====
+  async saveDraft() {
+    await this.save('draft');
+  }
 
-    // تهیه JSON فرم از Creator
-    const surveyJson = (this.creator as any)?.JSON ?? {};
-    // تم: API رسمی برای استخراج تم بسته به نسخه متفاوت است؛ برای سازگاری، به صورت محافظه‌کار:
-    const themeJson = (this.creator as any)?.theme ?? (this.creator as any)?.themeEditorModel?.themeJson ?? {};
-
-    const value = this.metaForm.value;
-
-    const surveyTitle = surveyJson.title ?? '';
-    const surveyDescription = surveyJson.description ?? '';
-
-    const dto: CreateUpdateFormDto = {
-      title: surveyTitle,                         // فیلدها را مطابق DTO خودت چک کن
-      description: surveyDescription ?? '',
-      isActive: this.metaForm.value.isActive ?? true,
-      jsonDefinition: JSON.stringify(surveyJson),
-      themeDefinition: JSON.stringify(themeJson),
-      isAnonymousAllowed: false
-    } as CreateUpdateFormDto;
-
-    // اگر apiName پیش‌فرضت 'default' است و سرویس 'Default' می‌خواهد، این گزینه را بده:
-    this.formService.create(dto, { apiName: 'default' }).subscribe({
-      next: (created: FormDto) => {
-        this.dirty = false;
-        this.clearDraft();
-        this.toaster.success('Forms:SavedSuccessfully');
-        this.router.navigateByUrl('/forms/list');
-      },
-      error: (err) => {
-        console.error(err);
-        // تلاش برای نمایش پیام خطای سرور
-        const msg = err?.error?.error?.message ?? err?.message ?? 'Forms:DefaultErrorMessage';
-        this.toaster.error(msg);
+  confirmPublish() {
+    Swal.fire({
+      title: this.l(LK.PublishConfirmTitle),
+      text:  this.l(LK.PublishConfirmText),
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: this.l(LK.PublishConfirmBtn),
+      cancelButtonText:  this.l(LK.Cancel),
+      reverseButtons: true
+    }).then(async res => {
+      if (res.isConfirmed) {
+        await this.saveAndPublish();
       }
     });
   }
 
-  // ذخیرهٔ محلی (AutoSave سفارشی اختیاری)
-  saveDraftToLocal(): void {
+  async saveAndPublish() {
+    await this.save('publish');
+  }
+
+  private save(mode: 'draft' | 'publish'): Promise<void> {
+    return new Promise((resolve, reject) => {
+      // اگر متادیتا اجباری است
+      // if (this.metaForm.invalid) {
+      //   this.metaForm.markAllAsTouched();
+      //   this.toaster.error(this.l(LK.ValidationError));
+      //   return reject();
+      // }
+
+      const surveyJson = (this.creator as any)?.JSON ?? {};
+      const themeJson =
+        (this.creator as any)?.theme ??
+        (this.creator as any)?.themeEditorModel?.themeJson ??
+        {};
+
+      const dto: CreateUpdateFormDto = {
+        title: surveyJson.title ?? '',
+        description: surveyJson.description ?? '',
+        isActive: mode === 'publish', // Draft=false, Publish=true
+        jsonDefinition: JSON.stringify(surveyJson),
+        themeDefinition: JSON.stringify(themeJson),
+        isAnonymousAllowed: false
+      } as CreateUpdateFormDto;
+
+      const onSuccess = (result: FormDto) => {
+        if (!this.formId && result?.id) {
+          this.formId = result.id as any;
+          this.dirty = true;
+          localStorage.setItem('form-create-formId', this.formId);
+        }
+        this.dirty = true;
+        this.clearDraft();
+
+        const msg = mode === 'publish' ? this.l(LK.SavedAndPublished) : this.l(LK.DraftSaved);
+        this.toaster.success(msg);
+
+        if (mode === 'publish') {
+          localStorage.removeItem('form-create-formId');
+          this.router.navigateByUrl('/forms/list');
+        }
+        resolve();
+      };
+
+      const onError = (err: any) => {
+        console.error(err);
+        const msg = err?.error?.error?.message ?? err?.message ?? this.l(LK.DefaultErrorMessage);
+        this.toaster.error(msg);
+        this.dirty = false;
+        reject(err);
+      };
+
+      if (!this.formId) {
+        this.formService.create(dto, { apiName: 'default' }).subscribe({ next: onSuccess, error: onError });
+      } else {
+        this.formService.update(this.formId, dto, { apiName: 'default' }).subscribe({ next: onSuccess, error: onError });
+      }
+    });
+  }
+
+private autoSaveTimer: any = null;
+
+private scheduleAutoSave(): void {
+  clearTimeout(this.autoSaveTimer);
+  this.autoSaveTimer = setTimeout(() => this.saveDraftToLocalSilent(), AUTO_SAVE_DELAY);
+}
+
+private saveDraftToLocalSilent(): void {
+  try {
     const draft = {
       meta: this.metaForm.value,
-      json: this.creator.JSON,
-      theme: this.creator.theme
+      json: (this.creator as any)?.JSON,
+      theme:
+        (this.creator as any)?.theme ??
+        (this.creator as any)?.themeEditorModel?.themeJson,
+      lastSavedAt: new Date().toISOString()
     };
-    localStorage.setItem('form-create-draft', JSON.stringify(draft));
-    this.toaster.info('Forms:SavedSuccessfully'); // یا Forms:DraftSaved
+    localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+  } catch (e) {
+    console.warn('Local draft save failed:', e);
   }
+}
+
+saveDraftToLocal(): void {
+  const draft = {
+    meta: this.metaForm.value,
+    json: (this.creator as any)?.JSON,
+    theme:
+      (this.creator as any)?.theme ??
+      (this.creator as any)?.themeEditorModel?.themeJson,
+    lastSavedAt: new Date().toISOString()
+  };
+  localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+  this.toaster.info(this.l(LK.DraftSaved)); // ✅ پیام چندزبانه
+}
+
+
+// ✅ چندزبانه
+private tryRestoreDraftFromLocal(): void {
+  const raw = localStorage.getItem(DRAFT_KEY);
+  if (!raw) return;
+
+  let when = '';
+  try {
+    const { lastSavedAt } = JSON.parse(raw);
+    if (lastSavedAt) {
+      // فرمت تاریخ براساس فرهنگ جاری
+      const culture = this.configState.getOne('localization')?.currentCulture?.cultureName ?? 'en';
+      when = new Date(lastSavedAt).toLocaleString(culture);
+    }
+  } catch { /* ignore */ }
+
+  Swal.fire({
+    title: this.l(LK.RestoreDraftTitle),
+    text:  when ? this.l(LK.RestoreDraftText, when) : this.l(LK.RestoreDraftText, ''),
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: this.l(LK.RestoreButton),
+    cancelButtonText:  this.l(LK.DiscardButton),
+    reverseButtons: true
+  }).then(res => {
+    if (res.isConfirmed) {
+      this.loadDraftFromLocal();
+    } else {
+      localStorage.removeItem(DRAFT_KEY);
+    }
+  });
+}
 
   loadDraftFromLocal(): void {
-    const raw = localStorage.getItem('form-create-draft');
-    if (!raw) return;
+  const raw = localStorage.getItem(DRAFT_KEY);
+  if (!raw) return;
+  try {
     const draft = JSON.parse(raw);
     this.metaForm.patchValue(draft.meta ?? {});
-    if (draft.json) this.creator.JSON = draft.json;
-    if (draft.theme) this.creator.theme = draft.theme;
+    if (draft.json) (this.creator as any).JSON = draft.json;
+    if (draft.theme) {
+      if ((this.creator as any).theme !== undefined) {
+        (this.creator as any).theme = draft.theme;
+      } else if ((this.creator as any).themeEditorModel?.themeJson !== undefined) {
+        (this.creator as any).themeEditorModel.themeJson = draft.theme;
+      }
+    }
     this.dirty = true;
-  }
+  } catch { /* ignore */ }
+}
 
-  clearDraft(): void {
-    localStorage.removeItem('form-create-draft');
-  }
 
-  // هشدار بستن تب مرورگر در صورت تغییرات ذخیره‌نشده
+clearDraft(): void {
+  localStorage.removeItem(DRAFT_KEY);
+}
+
   @HostListener('window:beforeunload', ['$event'])
   beforeUnloadHandler(event: BeforeUnloadEvent) {
     if (this.hasUnsavedChanges()) {
       event.preventDefault();
       event.returnValue = '';
+    }
+  }
+
+  // Ctrl+S = Draft, Ctrl+Shift+S = Publish
+  @HostListener('window:keydown', ['$event'])
+  onKeyDown(e: KeyboardEvent) {
+    const key = e.key?.toLowerCase();
+    if (e.ctrlKey && key === 's' && !e.shiftKey) {
+      e.preventDefault();
+      this.saveDraft();
+    }
+    if (e.ctrlKey && e.shiftKey && key === 's') {
+      e.preventDefault();
+      this.confirmPublish();
     }
   }
 }

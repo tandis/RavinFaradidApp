@@ -1,4 +1,4 @@
-import type { CreateUpdateFormDto, FormDto, FormVersionDto } from './contracts/dtos/models';
+import type { CreateUpdateFormDto, FormDto, FormVersionDto, FormViewerDto } from './contracts/dtos/models';
 import { RestService, Rest } from '@abp/ng.core';
 import type { PagedAndSortedResultRequestDto, PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 })
 export class FormService {
   apiName = 'Default';
-
+  
 
   archiveVersion = (formId: string, versionId: string, config?: Partial<Rest.Config>) =>
     this.restService.request<any, FormVersionDto>({
@@ -17,7 +17,7 @@ export class FormService {
       params: { formId, versionId },
     },
     { apiName: this.apiName,...config });
-
+  
 
   create = (input: CreateUpdateFormDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, FormDto>({
@@ -26,7 +26,7 @@ export class FormService {
       body: input,
     },
     { apiName: this.apiName,...config });
-
+  
 
   createNewVersion = (formId: string, jsonDefinition: string, themeDefinition?: string, config?: Partial<Rest.Config>) =>
     this.restService.request<any, FormVersionDto>({
@@ -35,7 +35,7 @@ export class FormService {
       params: { jsonDefinition, themeDefinition },
     },
     { apiName: this.apiName,...config });
-
+  
 
   createNextVersion = (formId: string, jsonDefinition: string, themeDefinition?: string, config?: Partial<Rest.Config>) =>
     this.restService.request<any, FormVersionDto>({
@@ -44,7 +44,7 @@ export class FormService {
       params: { jsonDefinition, themeDefinition },
     },
     { apiName: this.apiName,...config });
-
+  
 
   delete = (id: string, config?: Partial<Rest.Config>) =>
     this.restService.request<any, void>({
@@ -52,7 +52,7 @@ export class FormService {
       url: `/api/app/form/${id}`,
     },
     { apiName: this.apiName,...config });
-
+  
 
   get = (id: string, config?: Partial<Rest.Config>) =>
     this.restService.request<any, FormDto>({
@@ -60,7 +60,7 @@ export class FormService {
       url: `/api/app/form/${id}`,
     },
     { apiName: this.apiName,...config });
-
+  
 
   getList = (input: PagedAndSortedResultRequestDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, PagedResultDto<FormDto>>({
@@ -69,7 +69,23 @@ export class FormService {
       params: { sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
     },
     { apiName: this.apiName,...config });
+  
 
+  getPublishedVersion = (id: string, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, FormVersionDto>({
+      method: 'GET',
+      url: `/api/app/form/${id}/published-version`,
+    },
+    { apiName: this.apiName,...config });
+  
+
+  getViewer = (id: string, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, FormViewerDto>({
+      method: 'GET',
+      url: `/api/app/form/${id}/viewer`,
+    },
+    { apiName: this.apiName,...config });
+  
 
   publishVersion = (formId: string, versionId: string, config?: Partial<Rest.Config>) =>
     this.restService.request<any, FormVersionDto>({
@@ -78,7 +94,7 @@ export class FormService {
       params: { formId, versionId },
     },
     { apiName: this.apiName,...config });
-
+  
 
   unpublishCurrentVersion = (formId: string, config?: Partial<Rest.Config>) =>
     this.restService.request<any, FormVersionDto>({
@@ -86,7 +102,7 @@ export class FormService {
       url: `/api/app/form/unpublish-current-version/${formId}`,
     },
     { apiName: this.apiName,...config });
-
+  
 
   update = (id: string, input: CreateUpdateFormDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, FormDto>({

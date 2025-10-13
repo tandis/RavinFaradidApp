@@ -66,3 +66,20 @@ export interface FormVersionDto extends FullAuditedEntityDto<string> {
   definitionHash?: string;
   publishedAt?: string;
 }
+
+export interface FormViewerDto {
+  formId?: string;
+  title?: string;
+  description?: string;
+  isActive: boolean;
+  isAnonymousAllowed: boolean;
+  publishedVersion: FormViewerVersionDto;
+}
+
+export interface FormViewerVersionDto {
+  id?: string;
+  versionNumber: number;
+  publishedAt?: string;
+  schemaJson: object;
+  themeJson: object;
+}

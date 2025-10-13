@@ -1,32 +1,33 @@
-<div class="viewer-shell" [dir]="dir()">
-  <header class="viewer-header" *ngIf="form() as f">
+<div class="viewer-shell" dir="rtl">
+  <header class="viewer-header" *ngIf="view() as f">
     <div class="title-row">
-      <h2 class="title">{{ f.title }}</h2>
+      <!-- <h2 class="title">{{ f.title }}</h2> -->
 
       <div class="chips">
-        <span class="chip" [class.published]="f.isPublished" [class.draft]="!f.isPublished">
-          {{ f.isPublished ? 'منتشر شده' : 'پیش‌نویس' }}
+        <span class="chip" [class.published]="f.publishedVersion" [class.draft]="!f.publishedVersion">
+          {{ f.publishedVersion ? 'منتشر شده' : 'منتشر نشده' }}
         </span>
-        <span class="chip" *ngIf="f.publishedVersion">
-          نسخه {{ f.publishedVersion?.version }}
+        <span class="chip" [class.active]="f.isActive" [class.inactive]="!f.isActive">
+          {{ f.isActive ? 'فعال' : 'غیرفعال' }}
         </span>
-        <span class="chip subtle" *ngIf="f.category">دسته: {{ f.category }}</span>
+        <span class="chip" *ngIf="f.publishedVersion?.versionNumber as vnum">نسخه {{ vnum }}</span>
+        <span class="chip" *ngIf="f.publishedVersion?.publishedAt">
+ انتشار: {{ f.publishedVersion?.publishedAt | date:'medium' }}
+        </span>
       </div>
     </div>
-    <div class="meta" *ngIf="f.publishedVersion?.updatedAt">
-      آخرین بروزرسانی نسخه: {{ f.publishedVersion?.updatedAt | date:'medium' }}
-    </div>
+
+    <!-- <p class="desc" *ngIf="f.description">{{ f.description }}</p> -->
   </header>
 
   <div class="state" *ngIf="loading()">در حال بارگذاری…</div>
   <div class="state error" *ngIf="error()">{{ error() }}</div>
-
+<div class="viewer-scroll">
   <ng-container *ngIf="surveyModel() as sm">
     <survey [model]="sm"></survey>
   </ng-container>
-
+</div>
   <footer class="viewer-footer" *ngIf="surveyModel()">
     <button class="btn ghost" type="button" (click)="onCancel()">انصراف</button>
   </footer>
 </div>
-

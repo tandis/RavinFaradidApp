@@ -114,3 +114,22 @@ body {
 .svc-json-editor-tab__content-area, .spg-comment{
   direction: ltr;
 }
+
+/* 2) ظرف لایه‌بندی LeptonX: ارتفاع و فلکس درست */
+.lpx-wrapper {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* اسکرول اصلی روی content خواهد بود */
+}
+
+/* 3) ناحیه‌ی محتوا باید اسکرول‌پذیر باشد */
+.lpx-content {
+  flex: 1 1 auto;
+  min-height: 0;              /* کلید رفع «قد کشیدن» در Flex */
+  overflow-y: auto !important;
+  overflow-x: hidden;
+}
+
+/* اگر پروژه‌ات از این ظرف میانی هم استفاده می‌کند */
+.lpx-content-container { min-height: 0; }

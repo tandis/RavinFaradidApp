@@ -6,15 +6,20 @@
     <survey-creator [model]="creator"></survey-creator>
   </div>
 
-  <div class="actions mt-3 d-flex gap-2">
-    <button class="btn btn-primary" (click)="save()" [disabled]="metaForm.invalid">
-      {{ 'Forms:Save' | abpLocalization }}
+   <!-- نوار عمل چسبان پایین -->
+  <div class="action-bar">
+    <div class="float-left">
+      <span class="status-chip" [class.dirty]="dirty">
+ {{ (dirty ? LK.UnsavedChanges : LK.Saved) | abpLocalization }}      </span>
+    </div>
+    <div class="right">
+    <button type="button" class="btn btn-outline" (click)="saveDraft()" title="Ctrl+S">
+      {{ LK.SaveDraft | abpLocalization }}
     </button>
-    <button class="btn btn-outline-secondary" (click)="saveDraftToLocal()">
-      {{ 'Forms:SaveDraft' | abpLocalization }}
-    </button>
-    <button class="btn btn-outline-danger" (click)="clearDraft()">
-      {{ 'Forms:ClearDraft' | abpLocalization }}
+    <button type="button" class="btn btn-primary" [disabled]="dirty" (click)="confirmPublish()" title="Ctrl+Shift+S">
+      {{ LK.SaveAndPublishBtn | abpLocalization }}
     </button>
   </div>
+  </div>
 </div>
+
