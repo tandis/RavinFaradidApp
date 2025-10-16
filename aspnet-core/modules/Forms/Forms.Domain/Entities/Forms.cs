@@ -16,6 +16,13 @@ namespace RavinaFaradid.Forms.Domain.Entities
         public string Title { get; protected set; }
         public string Description { get; protected set; }
         public bool IsActive { get; protected set; }
+
+        public void SetMeta(string title, string description, Guid? categoryId)
+        {
+            Title = Check.NotNullOrWhiteSpace(title, nameof(title), maxLength: 128).Trim();
+            Description = description?.Trim();
+            CategoryId = categoryId;
+        }
         public Guid? TenantId { get; set; }
 
         // ارتباط با دسته‌بندی
@@ -52,9 +59,15 @@ namespace RavinaFaradid.Forms.Domain.Entities
 
         public FormVersion CreateInitialVersion(string jsonDefinition, string themeDefinition = null)
         {
-            var version = new FormVersion(Guid.NewGuid(), this.Id, jsonDefinition, themeDefinition, baseVersionNumber: 0);
+            var version = new FormVersion(Guid.NewGuid(), this.Id, jsonDefinition, themeDefinition, baseVersionNumber: null);
             Versions.Add(version);
             return version;
+        }
+
+        public void SetPublishedVersion(Guid versionId)
+        {
+            PublishedVersionId = versionId;
+            IsActive = true;
         }
 
         public void SetCategory(Guid? categoryId)
@@ -69,7 +82,7 @@ namespace RavinaFaradid.Forms.Domain.Entities
         public void Deactivate() => IsActive = false;
         public void Activate() => IsActive = true;
 
-        public void PublishVersion(Guid versionId)
+        public void PublishVersion(Guid versionId ,string title, string description)
         {
             var version = Versions.FirstOrDefault(v => v.Id == versionId)
                 ?? throw new BusinessException("FormVersion.NotFound");
@@ -80,6 +93,9 @@ namespace RavinaFaradid.Forms.Domain.Entities
 
             version.Publish();
             PublishedVersionId = version.Id;
+            IsActive = true;
+            Title = title;
+            Description = description;
         }
 
         public void UnpublishCurrentVersion()
@@ -117,6 +133,7 @@ namespace RavinaFaradid.Forms.Domain.Entities
                 this.Id,
                 jsonDefinition,
                 themeDefinition,
+                FormVersionStatus.Draft,
                 nextVersionNumber
             );
 
@@ -142,7 +159,7 @@ namespace RavinaFaradid.Forms.Domain.Entities
             var nextVersionNumber = (lastVersion?.VersionNumber ?? 0) + 1;
 
             // نسخه جدید را ایجاد کن
-            var version = new FormVersion(Guid.NewGuid(), this.Id, jsonDefinition, themeDefinition, nextVersionNumber);
+            var version = new FormVersion(Guid.NewGuid(), this.Id, jsonDefinition, themeDefinition, FormVersionStatus.Draft, nextVersionNumber);
 
             Versions.Add(version);
             return version;

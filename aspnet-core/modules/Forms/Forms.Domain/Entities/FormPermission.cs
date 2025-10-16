@@ -11,11 +11,13 @@ namespace RavinaFaradid.Forms.Domain.Entities
 {
     public enum FormPermissionLevel
     {
-        View = 0,
-        Submit = 1,
-        Edit = 2,
-        Publish = 3,
-        Delete = 4
+        None = 0,
+        View = 1,
+        Submit = 2,
+        Edit = 3,
+        Publish = 4,
+        Delete = 5,
+        Owner = 6
     }
 
     public class FormPermission : FullAuditedAggregateRoot<Guid>
@@ -35,9 +37,15 @@ namespace RavinaFaradid.Forms.Domain.Entities
         [ForeignKey(nameof(FormId))]
         public Form Form { get; protected set; }
 
-        protected FormPermission() { }
+        protected FormPermission(object value, object id, Guid toFormId) { }
 
-        public FormPermission(Guid id, Guid formId, FormPermissionLevel level, Guid? userId = null, Guid? roleId = null)
+        public FormPermission(
+                    Guid id,
+                    Guid formId,
+                    Guid? userId,
+                    FormPermissionLevel permissionLevel,
+                    Guid? roleId, Guid?
+                    tenantId)
             : base(id)
         {
             if (userId == null && roleId == null)
@@ -45,9 +53,21 @@ namespace RavinaFaradid.Forms.Domain.Entities
                     .WithData("Message", "Permission must have either a UserId or RoleId.");
 
             FormId = formId;
-            PermissionLevel = level;
+            PermissionLevel = permissionLevel;
             UserId = userId;
             RoleId = roleId;
         }
+
+        public void SetPrincipal(Guid? userId, Guid? roleId)
+        {
+            UserId = userId;
+            RoleId = roleId;
+        }
+
+        public void SetPermissionLevel(FormPermissionLevel level)
+        {
+            PermissionLevel = level;
+        }
+
     }
 }

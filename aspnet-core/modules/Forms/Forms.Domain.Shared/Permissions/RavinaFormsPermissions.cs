@@ -19,6 +19,9 @@ namespace RavinaFaradid.Forms.Permissions
             public const string Publish = GroupName + ".Forms.Publish";  // publish/unpublish/archive
             public const string Assign = GroupName + ".Forms.Assign";   // FormAssignments
             public const string ManagePermissions = GroupName + ".Forms.ManagePermissions";
+            //public const string Default = GroupName + ".FormPermissions";
+            public const string View = Default + ".View";
+            public const string Manage = Default + ".Manage";
         }
 
         public static class Responses
@@ -27,5 +30,6 @@ namespace RavinaFaradid.Forms.Permissions
             public const string Export = GroupName + ".Responses.Export";
             public const string Delete = GroupName + ".Responses.Delete";
         }
+
     }
 }

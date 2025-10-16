@@ -47,6 +47,9 @@
     "Forms:RestoreButton": "بازیابی",
     "Forms:DiscardButton": "رد کردن",
     "Forms:AutoSavedAt": "ذخیرهٔ خودکار در {0}",
+    "Permission:FormPermissions": "دسترسی‌های فرم",
+    "Permission:View": "مشاهده",
+    "Permission:Manage": "مدیریت",
     "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io."
   }
 }

@@ -7,13 +7,15 @@ import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FormService } from '@proxy/forms/application';
 import { CreateUpdateFormDto , FormDto } from '@proxy/forms/application/contracts/dtos';
-import { SurveyCreatorModel } from 'survey-creator-core';
+import { editorLocalization, SurveyCreatorModel } from 'survey-creator-core';
 import { SurveyCreatorModule } from 'survey-creator-angular';
 import { LocalizationPipe, ConfigStateService, LocalizationService } from '@abp/ng.core';
 import { ToasterService } from '@abp/ng.theme.shared';
 import { DirtyAware } from '../pending-changes.guard';
 import Swal from 'sweetalert2';
-
+import { firstValueFrom } from 'rxjs';
+import "survey-creator-core/i18n/persian";
+editorLocalization.currentLocale = "fa";
 // کلیدهای لوکالایزیشن در یک آبجکت واحد
 const LK = {
   PublishConfirmTitle: 'RavinaFaradid::Forms:PublishConfirmTitle',
@@ -159,19 +161,59 @@ export class FormCreateComponent implements OnInit, AfterViewInit, OnDestroy, Di
     });
   }
 
-  async saveAndPublish() {
-    await this.save('publish');
+async saveAndPublish() {
+
+  try {
+    // 1) اگر هنوز formId نداریم، اول فرم را بسازیم تا Id بگیریم
+    if (!this.formId) {
+      const json = (this.creator as any)?.JSON ?? {};
+      const metaDto = {
+        title: json.title ?? '',
+        description: json.description ?? ''
+      } as CreateUpdateFormDto;
+      const created = await firstValueFrom(
+        this.formService.create(metaDto, { apiName: 'default' })
+      );
+      this.formId = created.id;
+      localStorage.setItem('form-create-formId', this.formId!);
+    }
+
+    // 2) ساخت payload از وضعیت فعلی Designer
+    const payload: CreateUpdateFormDto = {
+      jsonDefinition: JSON.stringify((this.creator as any)?.JSON ?? {}),
+      themeDefinition: JSON.stringify(
+        (this.creator as any)?.theme ??
+        (this.creator as any)?.themeEditorModel?.themeJson ?? {}
+      ),
+      title:  (this.creator as any).Title,
+      isActive: true,
+      isAnonymousAllowed: false,
+      isDeleted:false,
+      id:''
+    };
+
+    // 3) فراخوانی سرویس انتشار واحد
+    await firstValueFrom(
+      this.formService.saveAndPublish(this.formId!, payload, { apiName: 'default' })
+    );
+
+    // 4) موفقیت: پاک‌سازی و هدایت
+    this.dirty = false;
+    this.clearDraft();
+    localStorage.removeItem('form-create-formId');
+    this.toaster.success(this.l('Forms:SavedAndPublished')); // یا pipe abpLocalization
+    this.router.navigateByUrl('/forms/list');
+  } catch (err: any) {
+    const msg =
+      err?.error?.error?.message ?? err?.message ?? this.l('Forms:DefaultErrorMessage');
+    this.toaster.error(msg);
+  } finally {
+    this.dirty = false;
   }
+}
 
   private save(mode: 'draft' | 'publish'): Promise<void> {
     return new Promise((resolve, reject) => {
-      // اگر متادیتا اجباری است
-      // if (this.metaForm.invalid) {
-      //   this.metaForm.markAllAsTouched();
-      //   this.toaster.error(this.l(LK.ValidationError));
-      //   return reject();
-      // }
-
       const surveyJson = (this.creator as any)?.JSON ?? {};
       const themeJson =
         (this.creator as any)?.theme ??
@@ -308,6 +350,8 @@ private tryRestoreDraftFromLocal(): void {
     this.dirty = true;
   } catch { /* ignore */ }
 }
+
+
 
 
 clearDraft(): void {

@@ -1115,11 +1115,183 @@
             }
           ],
           "actions": {
+            "GetListAsyncByInput": {
+              "uniqueName": "GetListAsyncByInput",
+              "name": "GetListAsync",
+              "httpMethod": "GET",
+              "url": "api/app/form",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto, Volo.Abp.Ddd.Application.Contracts",
+                  "type": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
+                  "typeSimple": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "Sorting",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "SkipCount",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "MaxResultCount",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                }
+              ],
+              "returnValue": {
+                "type": "Volo.Abp.Application.Dtos.PagedResultDto<RavinaFaradid.Forms.Application.Contracts.Dtos.FormDto>",
+                "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<RavinaFaradid.Forms.Application.Contracts.Dtos.FormDto>"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "Volo.Abp.Application.Services.IReadOnlyAppService<RavinaFaradid.Forms.Application.Contracts.Dtos.FormDto,RavinaFaradid.Forms.Application.Contracts.Dtos.FormDto,System.Guid,Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto>"
+            },
+            "GetAsyncById": {
+              "uniqueName": "GetAsyncById",
+              "name": "GetAsync",
+              "httpMethod": "GET",
+              "url": "api/app/form/{id}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "RavinaFaradid.Forms.Application.Contracts.Dtos.FormDto",
+                "typeSimple": "RavinaFaradid.Forms.Application.Contracts.Dtos.FormDto"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "Volo.Abp.Application.Services.IReadOnlyAppService<RavinaFaradid.Forms.Application.Contracts.Dtos.FormDto,RavinaFaradid.Forms.Application.Contracts.Dtos.FormDto,System.Guid,Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto>"
+            },
+            "DeleteAsyncById": {
+              "uniqueName": "DeleteAsyncById",
+              "name": "DeleteAsync",
+              "httpMethod": "DELETE",
+              "url": "api/app/form/{id}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "Volo.Abp.Application.Services.IDeleteAppService<System.Guid>"
+            },
             "GetPublishedVersionAsyncById": {
               "uniqueName": "GetPublishedVersionAsyncById",
               "name": "GetPublishedVersionAsync",
               "httpMethod": "GET",
               "url": "api/app/form/{id}/published-version",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "RavinaFaradid.Forms.Application.Contracts.Dtos.FormVersionDto",
+                "typeSimple": "RavinaFaradid.Forms.Application.Contracts.Dtos.FormVersionDto"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "RavinaFaradid.Forms.Application.FormAppService"
+            },
+            "GetDraftAsyncById": {
+              "uniqueName": "GetDraftAsyncById",
+              "name": "GetDraftAsync",
+              "httpMethod": "GET",
+              "url": "api/app/form/{id}/draft",
               "supportedVersions": [],
               "parametersOnMethod": [
                 {
@@ -1186,7 +1358,7 @@
                 "type": "RavinaFaradid.Forms.Application.Contracts.Dtos.FormViewerDto",
                 "typeSimple": "RavinaFaradid.Forms.Application.Contracts.Dtos.FormViewerDto"
               },
-              "allowAnonymous": null,
+              "allowAnonymous": true,
               "implementFrom": "RavinaFaradid.Forms.Application.FormAppService"
             },
             "CreateAsyncByInput": {
@@ -1223,8 +1395,122 @@
                 "type": "RavinaFaradid.Forms.Application.Contracts.Dtos.FormDto",
                 "typeSimple": "RavinaFaradid.Forms.Application.Contracts.Dtos.FormDto"
               },
-              "allowAnonymous": null,
+              "allowAnonymous": false,
               "implementFrom": "Volo.Abp.Application.Services.ICreateAppService<RavinaFaradid.Forms.Application.Contracts.Dtos.FormDto,RavinaFaradid.Forms.Application.Contracts.Dtos.CreateUpdateFormDto>"
+            },
+            "UpdateAsyncByIdAndInput": {
+              "uniqueName": "UpdateAsyncByIdAndInput",
+              "name": "UpdateAsync",
+              "httpMethod": "PUT",
+              "url": "api/app/form/{id}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "input",
+                  "typeAsString": "RavinaFaradid.Forms.Application.Contracts.Dtos.CreateUpdateFormDto, Forms.Application.Contracts",
+                  "type": "RavinaFaradid.Forms.Application.Contracts.Dtos.CreateUpdateFormDto",
+                  "typeSimple": "RavinaFaradid.Forms.Application.Contracts.Dtos.CreateUpdateFormDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "RavinaFaradid.Forms.Application.Contracts.Dtos.CreateUpdateFormDto",
+                  "typeSimple": "RavinaFaradid.Forms.Application.Contracts.Dtos.CreateUpdateFormDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "RavinaFaradid.Forms.Application.Contracts.Dtos.FormDto",
+                "typeSimple": "RavinaFaradid.Forms.Application.Contracts.Dtos.FormDto"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Volo.Abp.Application.Services.IUpdateAppService<RavinaFaradid.Forms.Application.Contracts.Dtos.FormDto,System.Guid,RavinaFaradid.Forms.Application.Contracts.Dtos.CreateUpdateFormDto>"
+            },
+            "SaveAndPublishAsyncByFormIdAndInput": {
+              "uniqueName": "SaveAndPublishAsyncByFormIdAndInput",
+              "name": "SaveAndPublishAsync",
+              "httpMethod": "POST",
+              "url": "api/app/form/save-and-publish/{formId}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "formId",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "input",
+                  "typeAsString": "Forms.Application.Contracts.Dtos.SaveAndPublishDto, Forms.Application.Contracts",
+                  "type": "Forms.Application.Contracts.Dtos.SaveAndPublishDto",
+                  "typeSimple": "Forms.Application.Contracts.Dtos.SaveAndPublishDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "formId",
+                  "name": "formId",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "Forms.Application.Contracts.Dtos.SaveAndPublishDto",
+                  "typeSimple": "Forms.Application.Contracts.Dtos.SaveAndPublishDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "RavinaFaradid.Forms.Application.Contracts.Dtos.FormVersionDto",
+                "typeSimple": "RavinaFaradid.Forms.Application.Contracts.Dtos.FormVersionDto"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "RavinaFaradid.Forms.Application.FormAppService"
             },
             "CreateNewVersionAsyncByFormIdAndJsonDefinitionAndThemeDefinition": {
               "uniqueName": "CreateNewVersionAsyncByFormIdAndJsonDefinitionAndThemeDefinition",
@@ -1300,7 +1586,7 @@
                 "type": "RavinaFaradid.Forms.Application.Contracts.Dtos.FormVersionDto",
                 "typeSimple": "RavinaFaradid.Forms.Application.Contracts.Dtos.FormVersionDto"
               },
-              "allowAnonymous": null,
+              "allowAnonymous": false,
               "implementFrom": "RavinaFaradid.Forms.Application.IFormAppService"
             },
             "PublishVersionAsyncByFormIdAndVersionId": {
@@ -1357,7 +1643,7 @@
                 "type": "RavinaFaradid.Forms.Application.Contracts.Dtos.FormVersionDto",
                 "typeSimple": "RavinaFaradid.Forms.Application.Contracts.Dtos.FormVersionDto"
               },
-              "allowAnonymous": null,
+              "allowAnonymous": false,
               "implementFrom": "RavinaFaradid.Forms.Application.IFormAppService"
             },
             "CreateNextVersionAsyncByFormIdAndJsonDefinitionAndThemeDefinition": {
@@ -1434,7 +1720,7 @@
                 "type": "RavinaFaradid.Forms.Application.Contracts.Dtos.FormVersionDto",
                 "typeSimple": "RavinaFaradid.Forms.Application.Contracts.Dtos.FormVersionDto"
               },
-              "allowAnonymous": null,
+              "allowAnonymous": false,
               "implementFrom": "RavinaFaradid.Forms.Application.IFormAppService"
             },
             "UnpublishCurrentVersionAsyncByFormId": {
@@ -1471,7 +1757,7 @@
                 "type": "RavinaFaradid.Forms.Application.Contracts.Dtos.FormVersionDto",
                 "typeSimple": "RavinaFaradid.Forms.Application.Contracts.Dtos.FormVersionDto"
               },
-              "allowAnonymous": null,
+              "allowAnonymous": false,
               "implementFrom": "RavinaFaradid.Forms.Application.IFormAppService"
             },
             "ArchiveVersionAsyncByFormIdAndVersionId": {
@@ -1528,200 +1814,8 @@
                 "type": "RavinaFaradid.Forms.Application.Contracts.Dtos.FormVersionDto",
                 "typeSimple": "RavinaFaradid.Forms.Application.Contracts.Dtos.FormVersionDto"
               },
-              "allowAnonymous": null,
+              "allowAnonymous": false,
               "implementFrom": "RavinaFaradid.Forms.Application.IFormAppService"
-            },
-            "UpdateAsyncByIdAndInput": {
-              "uniqueName": "UpdateAsyncByIdAndInput",
-              "name": "UpdateAsync",
-              "httpMethod": "PUT",
-              "url": "api/app/form/{id}",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "id",
-                  "typeAsString": "System.Guid, System.Private.CoreLib",
-                  "type": "System.Guid",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                },
-                {
-                  "name": "input",
-                  "typeAsString": "RavinaFaradid.Forms.Application.Contracts.Dtos.CreateUpdateFormDto, Forms.Application.Contracts",
-                  "type": "RavinaFaradid.Forms.Application.Contracts.Dtos.CreateUpdateFormDto",
-                  "typeSimple": "RavinaFaradid.Forms.Application.Contracts.Dtos.CreateUpdateFormDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "jsonName": null,
-                  "type": "System.Guid",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                },
-                {
-                  "nameOnMethod": "input",
-                  "name": "input",
-                  "jsonName": null,
-                  "type": "RavinaFaradid.Forms.Application.Contracts.Dtos.CreateUpdateFormDto",
-                  "typeSimple": "RavinaFaradid.Forms.Application.Contracts.Dtos.CreateUpdateFormDto",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "Body",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "RavinaFaradid.Forms.Application.Contracts.Dtos.FormDto",
-                "typeSimple": "RavinaFaradid.Forms.Application.Contracts.Dtos.FormDto"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Volo.Abp.Application.Services.IUpdateAppService<RavinaFaradid.Forms.Application.Contracts.Dtos.FormDto,System.Guid,RavinaFaradid.Forms.Application.Contracts.Dtos.CreateUpdateFormDto>"
-            },
-            "DeleteAsyncById": {
-              "uniqueName": "DeleteAsyncById",
-              "name": "DeleteAsync",
-              "httpMethod": "DELETE",
-              "url": "api/app/form/{id}",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "id",
-                  "typeAsString": "System.Guid, System.Private.CoreLib",
-                  "type": "System.Guid",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "jsonName": null,
-                  "type": "System.Guid",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "System.Void",
-                "typeSimple": "System.Void"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Volo.Abp.Application.Services.IDeleteAppService<System.Guid>"
-            },
-            "GetAsyncById": {
-              "uniqueName": "GetAsyncById",
-              "name": "GetAsync",
-              "httpMethod": "GET",
-              "url": "api/app/form/{id}",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "id",
-                  "typeAsString": "System.Guid, System.Private.CoreLib",
-                  "type": "System.Guid",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "id",
-                  "name": "id",
-                  "jsonName": null,
-                  "type": "System.Guid",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": [],
-                  "bindingSourceId": "Path",
-                  "descriptorName": ""
-                }
-              ],
-              "returnValue": {
-                "type": "RavinaFaradid.Forms.Application.Contracts.Dtos.FormDto",
-                "typeSimple": "RavinaFaradid.Forms.Application.Contracts.Dtos.FormDto"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Volo.Abp.Application.Services.IReadOnlyAppService<RavinaFaradid.Forms.Application.Contracts.Dtos.FormDto,RavinaFaradid.Forms.Application.Contracts.Dtos.FormDto,System.Guid,Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto>"
-            },
-            "GetListAsyncByInput": {
-              "uniqueName": "GetListAsyncByInput",
-              "name": "GetListAsync",
-              "httpMethod": "GET",
-              "url": "api/app/form",
-              "supportedVersions": [],
-              "parametersOnMethod": [
-                {
-                  "name": "input",
-                  "typeAsString": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto, Volo.Abp.Ddd.Application.Contracts",
-                  "type": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
-                  "typeSimple": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
-                  "isOptional": false,
-                  "defaultValue": null
-                }
-              ],
-              "parameters": [
-                {
-                  "nameOnMethod": "input",
-                  "name": "Sorting",
-                  "jsonName": null,
-                  "type": "System.String",
-                  "typeSimple": "string",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": "input"
-                },
-                {
-                  "nameOnMethod": "input",
-                  "name": "SkipCount",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": "input"
-                },
-                {
-                  "nameOnMethod": "input",
-                  "name": "MaxResultCount",
-                  "jsonName": null,
-                  "type": "System.Int32",
-                  "typeSimple": "number",
-                  "isOptional": false,
-                  "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
-                  "descriptorName": "input"
-                }
-              ],
-              "returnValue": {
-                "type": "Volo.Abp.Application.Dtos.PagedResultDto<RavinaFaradid.Forms.Application.Contracts.Dtos.FormDto>",
-                "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<RavinaFaradid.Forms.Application.Contracts.Dtos.FormDto>"
-              },
-              "allowAnonymous": null,
-              "implementFrom": "Volo.Abp.Application.Services.IReadOnlyAppService<RavinaFaradid.Forms.Application.Contracts.Dtos.FormDto,RavinaFaradid.Forms.Application.Contracts.Dtos.FormDto,System.Guid,Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto>"
             }
           }
         },
@@ -2958,6 +3052,930 @@
               },
               "allowAnonymous": null,
               "implementFrom": "RavinaFaradid.Forms.FormController"
+            }
+          }
+        },
+        "RavinaFaradid.Forms.Permissions.FormPermissionAppService": {
+          "controllerName": "FormPermission",
+          "controllerGroupName": "FormPermission",
+          "isRemoteService": true,
+          "isIntegrationService": false,
+          "apiVersion": null,
+          "type": "RavinaFaradid.Forms.Permissions.FormPermissionAppService",
+          "interfaces": [
+            {
+              "type": "Forms.Application.Contracts.Interface.IFormPermissionAppService",
+              "name": "IFormPermissionAppService",
+              "methods": [
+                {
+                  "name": "GetAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "id",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "Forms.Application.Contracts.Dtos.FormPermissionDto",
+                    "typeSimple": "Forms.Application.Contracts.Dtos.FormPermissionDto"
+                  }
+                },
+                {
+                  "name": "GetListAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "input",
+                      "typeAsString": "Forms.Application.Contracts.Dtos.FormPermissionListInput, Forms.Application.Contracts",
+                      "type": "Forms.Application.Contracts.Dtos.FormPermissionListInput",
+                      "typeSimple": "Forms.Application.Contracts.Dtos.FormPermissionListInput",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "Volo.Abp.Application.Dtos.PagedResultDto<Forms.Application.Contracts.Dtos.FormPermissionDto>",
+                    "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<Forms.Application.Contracts.Dtos.FormPermissionDto>"
+                  }
+                },
+                {
+                  "name": "CreateAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "input",
+                      "typeAsString": "Forms.Application.Contracts.Dtos.CreateUpdateFormPermissionDto, Forms.Application.Contracts",
+                      "type": "Forms.Application.Contracts.Dtos.CreateUpdateFormPermissionDto",
+                      "typeSimple": "Forms.Application.Contracts.Dtos.CreateUpdateFormPermissionDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "Forms.Application.Contracts.Dtos.FormPermissionDto",
+                    "typeSimple": "Forms.Application.Contracts.Dtos.FormPermissionDto"
+                  }
+                },
+                {
+                  "name": "UpdateAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "id",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "input",
+                      "typeAsString": "Forms.Application.Contracts.Dtos.CreateUpdateFormPermissionDto, Forms.Application.Contracts",
+                      "type": "Forms.Application.Contracts.Dtos.CreateUpdateFormPermissionDto",
+                      "typeSimple": "Forms.Application.Contracts.Dtos.CreateUpdateFormPermissionDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "Forms.Application.Contracts.Dtos.FormPermissionDto",
+                    "typeSimple": "Forms.Application.Contracts.Dtos.FormPermissionDto"
+                  }
+                },
+                {
+                  "name": "DeleteAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "id",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Void",
+                    "typeSimple": "System.Void"
+                  }
+                },
+                {
+                  "name": "SetForUserAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "formId",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "userId",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "level",
+                      "typeAsString": "RavinaFaradid.Forms.Domain.Entities.FormPermissionLevel, Forms.Domain",
+                      "type": "RavinaFaradid.Forms.Domain.Entities.FormPermissionLevel",
+                      "typeSimple": "enum",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "Forms.Application.Contracts.Dtos.FormPermissionDto",
+                    "typeSimple": "Forms.Application.Contracts.Dtos.FormPermissionDto"
+                  }
+                },
+                {
+                  "name": "SetForRoleAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "formId",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "roleId",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "level",
+                      "typeAsString": "RavinaFaradid.Forms.Domain.Entities.FormPermissionLevel, Forms.Domain",
+                      "type": "RavinaFaradid.Forms.Domain.Entities.FormPermissionLevel",
+                      "typeSimple": "enum",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "Forms.Application.Contracts.Dtos.FormPermissionDto",
+                    "typeSimple": "Forms.Application.Contracts.Dtos.FormPermissionDto"
+                  }
+                },
+                {
+                  "name": "GetEffectiveLevelAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "formId",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "userId",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "RavinaFaradid.Forms.Domain.Entities.FormPermissionLevel",
+                    "typeSimple": "enum"
+                  }
+                },
+                {
+                  "name": "CheckAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "formId",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "userId",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "required",
+                      "typeAsString": "RavinaFaradid.Forms.Domain.Entities.FormPermissionLevel, Forms.Domain",
+                      "type": "RavinaFaradid.Forms.Domain.Entities.FormPermissionLevel",
+                      "typeSimple": "enum",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Boolean",
+                    "typeSimple": "boolean"
+                  }
+                },
+                {
+                  "name": "CopyAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "fromFormId",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "toFormId",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Int32",
+                    "typeSimple": "number"
+                  }
+                },
+                {
+                  "name": "RemoveAllAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "formId",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Int32",
+                    "typeSimple": "number"
+                  }
+                }
+              ]
+            }
+          ],
+          "actions": {
+            "GetAsyncById": {
+              "uniqueName": "GetAsyncById",
+              "name": "GetAsync",
+              "httpMethod": "GET",
+              "url": "api/app/form-permission/{id}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Forms.Application.Contracts.Dtos.FormPermissionDto",
+                "typeSimple": "Forms.Application.Contracts.Dtos.FormPermissionDto"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "Forms.Application.Contracts.Interface.IFormPermissionAppService"
+            },
+            "GetListAsyncByInput": {
+              "uniqueName": "GetListAsyncByInput",
+              "name": "GetListAsync",
+              "httpMethod": "GET",
+              "url": "api/app/form-permission",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "Forms.Application.Contracts.Dtos.FormPermissionListInput, Forms.Application.Contracts",
+                  "type": "Forms.Application.Contracts.Dtos.FormPermissionListInput",
+                  "typeSimple": "Forms.Application.Contracts.Dtos.FormPermissionListInput",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "FormId",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "UserId",
+                  "jsonName": null,
+                  "type": "System.Guid?",
+                  "typeSimple": "string?",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "RoleId",
+                  "jsonName": null,
+                  "type": "System.Guid?",
+                  "typeSimple": "string?",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "Sorting",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "SkipCount",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "MaxResultCount",
+                  "jsonName": null,
+                  "type": "System.Int32",
+                  "typeSimple": "number",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": "input"
+                }
+              ],
+              "returnValue": {
+                "type": "Volo.Abp.Application.Dtos.PagedResultDto<Forms.Application.Contracts.Dtos.FormPermissionDto>",
+                "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<Forms.Application.Contracts.Dtos.FormPermissionDto>"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "Forms.Application.Contracts.Interface.IFormPermissionAppService"
+            },
+            "CreateAsyncByInput": {
+              "uniqueName": "CreateAsyncByInput",
+              "name": "CreateAsync",
+              "httpMethod": "POST",
+              "url": "api/app/form-permission",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "Forms.Application.Contracts.Dtos.CreateUpdateFormPermissionDto, Forms.Application.Contracts",
+                  "type": "Forms.Application.Contracts.Dtos.CreateUpdateFormPermissionDto",
+                  "typeSimple": "Forms.Application.Contracts.Dtos.CreateUpdateFormPermissionDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "Forms.Application.Contracts.Dtos.CreateUpdateFormPermissionDto",
+                  "typeSimple": "Forms.Application.Contracts.Dtos.CreateUpdateFormPermissionDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Forms.Application.Contracts.Dtos.FormPermissionDto",
+                "typeSimple": "Forms.Application.Contracts.Dtos.FormPermissionDto"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "Forms.Application.Contracts.Interface.IFormPermissionAppService"
+            },
+            "UpdateAsyncByIdAndInput": {
+              "uniqueName": "UpdateAsyncByIdAndInput",
+              "name": "UpdateAsync",
+              "httpMethod": "PUT",
+              "url": "api/app/form-permission/{id}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "input",
+                  "typeAsString": "Forms.Application.Contracts.Dtos.CreateUpdateFormPermissionDto, Forms.Application.Contracts",
+                  "type": "Forms.Application.Contracts.Dtos.CreateUpdateFormPermissionDto",
+                  "typeSimple": "Forms.Application.Contracts.Dtos.CreateUpdateFormPermissionDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "Forms.Application.Contracts.Dtos.CreateUpdateFormPermissionDto",
+                  "typeSimple": "Forms.Application.Contracts.Dtos.CreateUpdateFormPermissionDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Forms.Application.Contracts.Dtos.FormPermissionDto",
+                "typeSimple": "Forms.Application.Contracts.Dtos.FormPermissionDto"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "Forms.Application.Contracts.Interface.IFormPermissionAppService"
+            },
+            "DeleteAsyncById": {
+              "uniqueName": "DeleteAsyncById",
+              "name": "DeleteAsync",
+              "httpMethod": "DELETE",
+              "url": "api/app/form-permission/{id}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "Forms.Application.Contracts.Interface.IFormPermissionAppService"
+            },
+            "SetForUserAsyncByFormIdAndUserIdAndLevel": {
+              "uniqueName": "SetForUserAsyncByFormIdAndUserIdAndLevel",
+              "name": "SetForUserAsync",
+              "httpMethod": "POST",
+              "url": "api/app/form-permission/set-for-user",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "formId",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "userId",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "level",
+                  "typeAsString": "RavinaFaradid.Forms.Domain.Entities.FormPermissionLevel, Forms.Domain",
+                  "type": "RavinaFaradid.Forms.Domain.Entities.FormPermissionLevel",
+                  "typeSimple": "enum",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "formId",
+                  "name": "formId",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "userId",
+                  "name": "userId",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "level",
+                  "name": "level",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Forms.Application.Contracts.Dtos.FormPermissionDto",
+                "typeSimple": "Forms.Application.Contracts.Dtos.FormPermissionDto"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "Forms.Application.Contracts.Interface.IFormPermissionAppService"
+            },
+            "SetForRoleAsyncByFormIdAndRoleIdAndLevel": {
+              "uniqueName": "SetForRoleAsyncByFormIdAndRoleIdAndLevel",
+              "name": "SetForRoleAsync",
+              "httpMethod": "POST",
+              "url": "api/app/form-permission/set-for-role",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "formId",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "roleId",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "level",
+                  "typeAsString": "RavinaFaradid.Forms.Domain.Entities.FormPermissionLevel, Forms.Domain",
+                  "type": "RavinaFaradid.Forms.Domain.Entities.FormPermissionLevel",
+                  "typeSimple": "enum",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "formId",
+                  "name": "formId",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "roleId",
+                  "name": "roleId",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "level",
+                  "name": "level",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "Forms.Application.Contracts.Dtos.FormPermissionDto",
+                "typeSimple": "Forms.Application.Contracts.Dtos.FormPermissionDto"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "Forms.Application.Contracts.Interface.IFormPermissionAppService"
+            },
+            "GetEffectiveLevelAsyncByFormIdAndUserId": {
+              "uniqueName": "GetEffectiveLevelAsyncByFormIdAndUserId",
+              "name": "GetEffectiveLevelAsync",
+              "httpMethod": "GET",
+              "url": "api/app/form-permission/effective-level",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "formId",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "userId",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "formId",
+                  "name": "formId",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "userId",
+                  "name": "userId",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "RavinaFaradid.Forms.Domain.Entities.FormPermissionLevel",
+                "typeSimple": "enum"
+              },
+              "allowAnonymous": true,
+              "implementFrom": "Forms.Application.Contracts.Interface.IFormPermissionAppService"
+            },
+            "CheckAsyncByFormIdAndUserIdAndRequired": {
+              "uniqueName": "CheckAsyncByFormIdAndUserIdAndRequired",
+              "name": "CheckAsync",
+              "httpMethod": "POST",
+              "url": "api/app/form-permission/check",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "formId",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "userId",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "required",
+                  "typeAsString": "RavinaFaradid.Forms.Domain.Entities.FormPermissionLevel, Forms.Domain",
+                  "type": "RavinaFaradid.Forms.Domain.Entities.FormPermissionLevel",
+                  "typeSimple": "enum",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "formId",
+                  "name": "formId",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "userId",
+                  "name": "userId",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "required",
+                  "name": "required",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Boolean",
+                "typeSimple": "boolean"
+              },
+              "allowAnonymous": true,
+              "implementFrom": "Forms.Application.Contracts.Interface.IFormPermissionAppService"
+            },
+            "CopyAsyncByFromFormIdAndToFormId": {
+              "uniqueName": "CopyAsyncByFromFormIdAndToFormId",
+              "name": "CopyAsync",
+              "httpMethod": "POST",
+              "url": "api/app/form-permission/copy",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "fromFormId",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "toFormId",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "fromFormId",
+                  "name": "fromFormId",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "toFormId",
+                  "name": "toFormId",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Int32",
+                "typeSimple": "number"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "Forms.Application.Contracts.Interface.IFormPermissionAppService"
+            },
+            "RemoveAllAsyncByFormId": {
+              "uniqueName": "RemoveAllAsyncByFormId",
+              "name": "RemoveAllAsync",
+              "httpMethod": "DELETE",
+              "url": "api/app/form-permission/all/{formId}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "formId",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "formId",
+                  "name": "formId",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Int32",
+                "typeSimple": "number"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "Forms.Application.Contracts.Interface.IFormPermissionAppService"
             }
           }
         }
@@ -5716,6 +6734,434 @@
     }
   },
   "types": {
+    "Abp.Application.Services.Dto.AuditedEntityDto<T0>": {
+      "baseType": "Abp.Application.Services.Dto.CreationAuditedEntityDto<TPrimaryKey>",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": [
+        "TPrimaryKey"
+      ],
+      "properties": [
+        {
+          "name": "LastModificationTime",
+          "jsonName": null,
+          "type": "System.DateTime?",
+          "typeSimple": "string?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "LastModifierUserId",
+          "jsonName": null,
+          "type": "System.Int64?",
+          "typeSimple": "number?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Abp.Application.Services.Dto.CreationAuditedEntityDto<T0>": {
+      "baseType": "Abp.Application.Services.Dto.EntityDto<TPrimaryKey>",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": [
+        "TPrimaryKey"
+      ],
+      "properties": [
+        {
+          "name": "CreationTime",
+          "jsonName": null,
+          "type": "System.DateTime",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "CreatorUserId",
+          "jsonName": null,
+          "type": "System.Int64?",
+          "typeSimple": "number?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Abp.Application.Services.Dto.EntityDto<T0>": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": [
+        "TPrimaryKey"
+      ],
+      "properties": [
+        {
+          "name": "Id",
+          "jsonName": null,
+          "type": "TPrimaryKey",
+          "typeSimple": "TPrimaryKey",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Abp.Application.Services.Dto.FullAuditedEntityDto<T0>": {
+      "baseType": "Abp.Application.Services.Dto.AuditedEntityDto<TPrimaryKey>",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": [
+        "TPrimaryKey"
+      ],
+      "properties": [
+        {
+          "name": "IsDeleted",
+          "jsonName": null,
+          "type": "System.Boolean",
+          "typeSimple": "boolean",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "DeleterUserId",
+          "jsonName": null,
+          "type": "System.Int64?",
+          "typeSimple": "number?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "DeletionTime",
+          "jsonName": null,
+          "type": "System.DateTime?",
+          "typeSimple": "string?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Forms.Application.Contracts.Dtos.CreateUpdateFormPermissionDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "FormId",
+          "jsonName": null,
+          "type": "System.Guid",
+          "typeSimple": "string",
+          "isRequired": true,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "UserId",
+          "jsonName": null,
+          "type": "System.Guid?",
+          "typeSimple": "string?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "RoleId",
+          "jsonName": null,
+          "type": "System.Guid?",
+          "typeSimple": "string?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "PermissionLevel",
+          "jsonName": null,
+          "type": "RavinaFaradid.Forms.Domain.Entities.FormPermissionLevel",
+          "typeSimple": "enum",
+          "isRequired": true,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "ConcurrencyStamp",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Forms.Application.Contracts.Dtos.FormPermissionDto": {
+      "baseType": "Volo.Abp.Application.Dtos.AuditedEntityDto<System.Guid>",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "FormId",
+          "jsonName": null,
+          "type": "System.Guid",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "UserId",
+          "jsonName": null,
+          "type": "System.Guid?",
+          "typeSimple": "string?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "RoleId",
+          "jsonName": null,
+          "type": "System.Guid?",
+          "typeSimple": "string?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "PermissionLevel",
+          "jsonName": null,
+          "type": "RavinaFaradid.Forms.Domain.Entities.FormPermissionLevel",
+          "typeSimple": "enum",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "TenantId",
+          "jsonName": null,
+          "type": "System.Guid?",
+          "typeSimple": "string?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "ConcurrencyStamp",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Forms.Application.Contracts.Dtos.FormPermissionListInput": {
+      "baseType": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "FormId",
+          "jsonName": null,
+          "type": "System.Guid",
+          "typeSimple": "string",
+          "isRequired": true,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "UserId",
+          "jsonName": null,
+          "type": "System.Guid?",
+          "typeSimple": "string?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "RoleId",
+          "jsonName": null,
+          "type": "System.Guid?",
+          "typeSimple": "string?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "Forms.Application.Contracts.Dtos.SaveAndPublishDto": {
+      "baseType": "Abp.Application.Services.Dto.FullAuditedEntityDto<System.Guid>",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "Title",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": 0,
+          "maxLength": 256,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Description",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": 0,
+          "maxLength": 1000,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "CategoryId",
+          "jsonName": null,
+          "type": "System.Guid?",
+          "typeSimple": "string?",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "IsActive",
+          "jsonName": null,
+          "type": "System.Boolean",
+          "typeSimple": "boolean",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "IsAnonymousAllowed",
+          "jsonName": null,
+          "type": "System.Boolean",
+          "typeSimple": "boolean",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "JsonDefinition",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": true,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "ThemeDefinition",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
     "RavinaFaradid.Forms.Application.Contracts.Dtos.CreateFormResponseDto": {
       "baseType": "Volo.Abp.Application.Dtos.FullAuditedEntityDto<System.Guid>",
       "isEnum": false,
@@ -6839,18 +8285,22 @@
       "baseType": "System.Enum",
       "isEnum": true,
       "enumNames": [
+        "None",
         "View",
         "Submit",
         "Edit",
         "Publish",
-        "Delete"
+        "Delete",
+        "Owner"
       ],
       "enumValues": [
         0,
         1,
         2,
         3,
-        4
+        4,
+        5,
+        6
       ],
       "genericArguments": null,
       "properties": null

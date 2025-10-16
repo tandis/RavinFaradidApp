@@ -13,6 +13,10 @@ using Volo.Abp.Domain.Entities;
 using Volo.Abp.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using RavinaFaradid.Forms.Permissions;
+using Volo.Abp.Uow;
+using Volo.Abp.ObjectMapping;
+using Forms.Application.Contracts.Dtos;
+using Forms.Domain.Domain.Managers;
 
 namespace RavinaFaradid.Forms.Application
 {
@@ -28,15 +32,18 @@ namespace RavinaFaradid.Forms.Application
         private readonly IRepository<Form, Guid> _formRepo;
         private readonly IRepository<FormVersion, Guid> _versionRepo;
         private readonly ICurrentUser _currentUser;
+        private readonly FormVersionManager _formVersionManager;
+
         public FormAppService(IRepository<Form, Guid> formRepo,
             IRepository<FormVersion, Guid> versionRepo,
-        ICurrentUser currentUser
-            ):base(formRepo)
+        ICurrentUser currentUser, FormVersionManager formVersionManager
+            ) :base(formRepo)
             
         {
             _formRepo = formRepo;
             _versionRepo = versionRepo;
             _currentUser = currentUser;
+            _formVersionManager = formVersionManager;
         }
 
 
@@ -49,35 +56,6 @@ namespace RavinaFaradid.Forms.Application
         public override Task<FormDto> GetAsync(Guid id)
         => base.GetAsync(id);
 
-        //[HttpPost]
-        //[Authorize(RavinFaradidFormsPermissions.Forms.Create)]
-        //public override async Task<FormDto> CreateAsync([FromBody] CreateUpdateFormDto input)
-        //{
-        //    Check.NotNull(input, nameof(input));
-
-        //    var form = new Form(
-        //        Guid.NewGuid(),
-        //        input.Title,
-        //        input.Description,
-        //        input.CategoryId,
-        //        input.IsActive,
-        //        input.IsAnonymousAllowed
-        //    );
-
-        //    // نسخه اولیه (Version 0) + انتشار اختیاری
-        //    var version = form.CreateInitialVersion(input.JsonDefinition, input.ThemeDefinition);
-        //    form.PublishVersion(version.Id);
-
-        //    await Repository.InsertAsync(form, autoSave: true);
-        //    return ObjectMapper.Map<Form, FormDto>(form);
-        //}
-
-        //[HttpPut("{id:guid}")]
-        //[Authorize(RavinFaradidFormsPermissions.Forms.Update)]
-        //public override Task<FormDto> UpdateAsync(Guid id, [FromBody] CreateUpdateFormDto input)
-        //=> base.UpdateAsync(id, input);
-
-        //[HttpDelete("{id:guid}")]
         [Authorize(RavinaFaradidFormsPermissions.Forms.Delete)]
         public override Task DeleteAsync(Guid id)
             => base.DeleteAsync(id);
@@ -96,6 +74,12 @@ namespace RavinaFaradid.Forms.Application
             if (!string.Equals(ver.Status.ToString(), "Published", StringComparison.OrdinalIgnoreCase) && ver.PublishedAt == null)
                 throw new BusinessException("FormVersionNotPublished");
 
+            return ObjectMapper.Map<FormVersion, FormVersionDto>(ver);
+        }
+
+        public virtual async Task<FormVersionDto> GetDraftAsync(Guid id)
+        {
+            var ver = await _versionRepo.FirstOrDefaultAsync(ver => ver.FormId == id);
             return ObjectMapper.Map<FormVersion, FormVersionDto>(ver);
         }
 
@@ -176,6 +160,75 @@ namespace RavinaFaradid.Forms.Application
 
             return ObjectMapper.Map<Form, FormDto>(form);
         }
+
+        [UnitOfWork] // اطمینان از ذخیره در پایان (یا با autoSave:true)
+        public override async Task<FormDto> UpdateAsync(Guid id, CreateUpdateFormDto input)
+        {
+            // 1) متادیتا فرم (Title, Description, Category, ...)
+            var form = await _formRepo.GetAsync(id);
+
+            form.SetMeta(input.Title, input.Description, input.CategoryId);
+
+            await _formRepo.UpdateAsync(form); // autoSave=false (به UoW وابسته است)
+
+            // 2) محتوای فرم: JSON/Theme => Upsert روی Draft
+            var hasContent = !string.IsNullOrWhiteSpace(input.JsonDefinition)
+                             || !string.IsNullOrWhiteSpace(input.ThemeDefinition);
+            if (hasContent)
+            {
+                var draft = await _versionRepo.FirstOrDefaultAsync(v =>
+                    v.FormId == id && v.Status == FormVersionStatus.Draft);
+                
+                draft.SetDraftContent(input.JsonDefinition ?? "{}", input.ThemeDefinition ?? "{}", FormVersionStatus.Draft);
+                await _versionRepo.UpdateAsync(draft); // autoSave=false 
+            }
+
+            // 3) ذخیرهٔ نهایی
+            await CurrentUnitOfWork.SaveChangesAsync(); // یا از autoSave:true در Insert/Update استفاده کن
+
+            return ObjectMapper.Map<Form, FormDto>(form);
+        }
+
+        [UnitOfWork]
+        public async Task<FormVersionDto> SaveAndPublishAsync(Guid formId, SaveAndPublishDto input)
+        {
+            // 1) Draft را (با Tracking) بیاور؛ اگر نبود، بساز
+            var draft = await _versionRepo.FirstOrDefaultAsync(
+                v => v.FormId == formId && v.Status == FormVersionStatus.Draft);
+
+            if (draft == null)
+            {
+                draft = new FormVersion(GuidGenerator.Create(), formId,
+                    jsonDefinition: input.JsonDefinition ?? "{}",
+                    themeDefinition: input.ThemeDefinition ?? "{}",
+                    status: FormVersionStatus.Published,
+                    baseVersionNumber: 0
+                );
+
+                await _versionRepo.InsertAsync(draft); // autoSave=false (UoW)
+            }
+            else
+            {
+                // 2) آخرین محتوا را روی Draft اعمال کن
+                draft.SetDraftContent(input.JsonDefinition ?? "{}", input.ThemeDefinition ?? "{}", FormVersionStatus.Draft);
+
+                await _versionRepo.UpdateAsync(draft);
+            }
+            var published = await _formVersionManager.CreateNextVersionAsync(formId, draft.JsonDefinition, draft.ThemeDefinition);
+
+            // 4) ترفیع همان Draft به Published (بدون ایجاد رکورد جدید)
+            var form = await _formRepo.GetAsync(formId);
+            //form.SetPublishedVersion(published.Id); // متد دامنه: PublishedVersionId = id; IsActive = true;
+            form.PublishVersion(published.Id, input.Title, input.Description);
+
+            await _formRepo.UpdateAsync(form);
+
+            await CurrentUnitOfWork.SaveChangesAsync();
+
+            return ObjectMapper.Map<FormVersion, FormVersionDto>(published);
+        }
+
+
         [Authorize(RavinaFaradidFormsPermissions.Forms.Create)]
         // ✅ ایجاد نسخه جدید (بدون توجه به شماره نسخه)
         public async Task<FormVersionDto> CreateNewVersionAsync(Guid formId, string jsonDefinition, string themeDefinition = null)
@@ -197,7 +250,7 @@ namespace RavinaFaradid.Forms.Application
         {
             var form = await Repository.GetAsync(formId);
 
-            form.PublishVersion(versionId);
+            form.PublishVersion(versionId,form.Title,form.Description);
 
             await Repository.UpdateAsync(form, autoSave: true);
 

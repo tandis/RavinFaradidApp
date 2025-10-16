@@ -8,7 +8,7 @@
 
    <!-- نوار عمل چسبان پایین -->
   <div class="action-bar">
-    <div class="float-left">
+    <div class="float-left badge rounded-pill bg-danger soft">
       <span class="status-chip" [class.dirty]="dirty">
  {{ (dirty ? LK.UnsavedChanges : LK.Saved) | abpLocalization }}      </span>
     </div>
@@ -16,7 +16,7 @@
     <button type="button" class="btn btn-outline" (click)="saveDraft()" title="Ctrl+S">
       {{ LK.SaveDraft | abpLocalization }}
     </button>
-    <button type="button" class="btn btn-primary" [disabled]="dirty" (click)="confirmPublish()" title="Ctrl+Shift+S">
+    <button type="button" class="btn btn-primary" [disabled]="!dirty" (click)="confirmPublish()" title="Ctrl+Shift+S">
       {{ LK.SaveAndPublishBtn | abpLocalization }}
     </button>
   </div>

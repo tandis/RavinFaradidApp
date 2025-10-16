@@ -1,4 +1,4 @@
-import type { CreateUpdateFormDto, FormDto, FormVersionDto, FormViewerDto } from './contracts/dtos/models';
+import type { CreateUpdateFormDto, FormDto, FormVersionDto, FormViewerDto, SaveAndPublishDto } from './contracts/dtos/models';
 import { RestService, Rest } from '@abp/ng.core';
 import type { PagedAndSortedResultRequestDto, PagedResultDto } from '@abp/ng.core';
 import { Injectable } from '@angular/core';
@@ -62,6 +62,14 @@ export class FormService {
     { apiName: this.apiName,...config });
   
 
+  getDraft = (id: string, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, FormVersionDto>({
+      method: 'GET',
+      url: `/api/app/form/${id}/draft`,
+    },
+    { apiName: this.apiName,...config });
+  
+
   getList = (input: PagedAndSortedResultRequestDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, PagedResultDto<FormDto>>({
       method: 'GET',
@@ -92,6 +100,15 @@ export class FormService {
       method: 'POST',
       url: '/api/app/form/publish-version',
       params: { formId, versionId },
+    },
+    { apiName: this.apiName,...config });
+  
+
+  saveAndPublish = (formId: string, input: SaveAndPublishDto, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, FormVersionDto>({
+      method: 'POST',
+      url: `/api/app/form/save-and-publish/${formId}`,
+      body: input,
     },
     { apiName: this.apiName,...config });
   

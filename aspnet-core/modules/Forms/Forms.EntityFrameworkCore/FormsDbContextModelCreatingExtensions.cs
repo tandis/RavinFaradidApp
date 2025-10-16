@@ -102,6 +102,12 @@ namespace RavinaFaradid.Forms.EntityFrameworkCore
                     .HasConversion<string>() // ذخیره به صورت Draft/Published/Archived
                     .HasMaxLength(32)
                     .HasDefaultValue(FormVersionStatus.Draft);
+                b.HasIndex(v => new { v.FormId, v.Status })
+                    .IsUnique()
+                    .HasFilter("[Status] = 0"); // SQL Server; برای PG از syntax خودش استفاده کن
+
+                // جلوگیری از تکرار نسخه منتشرشده
+                b.HasIndex(v => new { v.FormId, v.VersionNumber });
             });
 
             // ================================

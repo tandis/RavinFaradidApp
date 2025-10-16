@@ -9,7 +9,10 @@ namespace RavinaFaradid.Forms.Permissions
     {
         public override void Define(IPermissionDefinitionContext context)
         {
-            var group = context.AddGroup(RavinaFaradidFormsPermissions.GroupName, L("Permission:RavinaForms"));
+            const string GroupName = RavinaFaradidFormsPermissions.GroupName; 
+
+            var group = context.GetGroupOrNull(GroupName)
+                    ?? context.AddGroup(RavinaFaradidFormsPermissions.GroupName, L("Permission:RavinaForms"));
 
             var forms = group.AddPermission(RavinaFaradidFormsPermissions.Forms.Default, L("Permission:Forms"));
             forms.AddChild(RavinaFaradidFormsPermissions.Forms.Create, L("Permission:Forms.Create"));

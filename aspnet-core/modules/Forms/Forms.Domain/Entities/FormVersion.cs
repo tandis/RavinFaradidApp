@@ -41,15 +41,39 @@ namespace RavinaFaradid.Forms.Domain.Entities
 
         protected FormVersion() { }
 
-        public FormVersion(Guid id, Guid formId, string jsonDefinition, string themeDefinition = null, int? baseVersionNumber = null)
+        public FormVersion(Guid id, Guid formId, string jsonDefinition, string themeDefinition = null, FormVersionStatus status = FormVersionStatus.Draft, int? baseVersionNumber = null)
             : base(id)
         {
             FormId = formId;
             JsonDefinition = Check.NotNullOrWhiteSpace(jsonDefinition, nameof(jsonDefinition));
             ThemeDefinition = themeDefinition;
-            VersionNumber = (baseVersionNumber ?? 0) + 1;
+            VersionNumber = (baseVersionNumber ?? 0);
             DefinitionHash = ComputeHash(jsonDefinition);
-            Status = FormVersionStatus.Draft; // پیش‌فرض: پیش‌نویس
+            Status = status;//FormVersionStatus.Draft; // پیش‌فرض: پیش‌نویس
+        }
+
+        /// <summary>
+        /// فقط برای Draft اجازهٔ تغییر می‌دهیم.
+        /// </summary>
+        public void SetDraftContent(string jsonDefinition, string themeDefinition, FormVersionStatus status)
+        {
+            EnsureDraft();
+            SetDraftContentInternal(jsonDefinition, themeDefinition);
+            Status = status;
+            // اگر از کانکارنسی استفاده می‌کنی می‌تونی استمپ جدید بزنی:
+            // ConcurrencyStamp = Guid.NewGuid().ToString("N");
+        }
+
+        private void SetDraftContentInternal(string jsonDefinition, string themeDefinition)
+        {
+            JsonDefinition = Check.NotNullOrWhiteSpace(jsonDefinition, nameof(jsonDefinition));
+            ThemeDefinition = string.IsNullOrWhiteSpace(themeDefinition) ? "{}" : themeDefinition;
+        }
+
+        private void EnsureDraft()
+        {
+            if (Status != FormVersionStatus.Draft)
+                throw new BusinessException("Forms:CannotModifyNonDraftVersion");
         }
 
         public void Publish()
@@ -80,6 +104,15 @@ namespace RavinaFaradid.Forms.Domain.Entities
             using var sha = System.Security.Cryptography.SHA256.Create();
             var bytes = System.Text.Encoding.UTF8.GetBytes(json ?? "");
             return Convert.ToHexString(sha.ComputeHash(bytes));
+        }
+
+        public void PromoteToPublished(int newVersionNumber)
+        {
+            EnsureDraft();
+            Status = FormVersionStatus.Published;
+            VersionNumber = newVersionNumber;
+            PublishedAt = DateTime.UtcNow;
+            // ConcurrencyStamp = Guid.NewGuid().ToString("N");
         }
     }
 }

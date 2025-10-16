@@ -35,6 +35,9 @@
       <button class="btn btn-sm btn-danger" (click)="remove(row.id)">
         {{ 'RavinaFaradid::Forms:Delete' | abpLocalization }}
       </button>
+      <a [routerLink]="['/forms', row.id, 'permissions']" class="btn btn-outline-secondary btn-sm">
+دسترسی‌ها
+</a>
     </ng-template>
   </ngx-datatable-column>
 

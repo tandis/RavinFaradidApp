@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { FormListComponent } from './form-list/form-list.component';
-import { FormEditorComponent } from './form-editor/form-editor.component';
+import { FormEditComponent } from './form-editor/form-edit.component';
 import { FormViewerComponent } from './form-viewer/form-viewer.component';
 import { FormResponseListComponent } from './form-response-list.component';
 import { FormTemplateListComponent } from './form-template/form-template-list.component';
@@ -12,7 +12,7 @@ export const formsRoutes: Routes = [
   canDeactivate: [PendingChangesGuard],
   loadComponent: () => import('./form-creator/form-create.component').then(m => m.FormCreateComponent)
 },
-  { path: 'editor', component: FormEditorComponent },
+  { path: 'edit/:id', component: FormEditComponent },
   { path: 'view/:id', component: FormViewerComponent },
   { path: 'templates', component: FormTemplateListComponent }
 ];
