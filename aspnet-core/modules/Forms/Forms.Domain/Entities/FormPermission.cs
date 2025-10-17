@@ -11,13 +11,11 @@ namespace RavinaFaradid.Forms.Domain.Entities
 {
     public enum FormPermissionLevel
     {
-        None = 0,
-        View = 1,
-        Submit = 2,
-        Edit = 3,
-        Publish = 4,
-        Delete = 5,
-        Owner = 6
+        None = 0, // هیچ دسترسی
+        View = 1, // مشاهده فرم (Form صفحه و سوالات)
+        Submit = 2, // ارسال پاسخ
+        ManageOwn = 3  // مشاهده/ویرایش/حذف پاسخ‌های «خودِ کاربر»
+         // در آینده اگر خواستم: Review, ManageAllResponses, ...
     }
 
     public class FormPermission : FullAuditedAggregateRoot<Guid>
@@ -27,7 +25,7 @@ namespace RavinaFaradid.Forms.Domain.Entities
         // 🔹 کاربر خاص یا نقش خاص
         public Guid? UserId { get; protected set; }
         public Guid? RoleId { get; protected set; }
-
+        public bool IsAnonymous { get; protected set; } 
         // 🔹 نوع دسترسی
         public FormPermissionLevel PermissionLevel { get; protected set; }
 
@@ -45,7 +43,9 @@ namespace RavinaFaradid.Forms.Domain.Entities
                     Guid? userId,
                     FormPermissionLevel permissionLevel,
                     Guid? roleId, Guid?
-                    tenantId)
+                    tenantId,
+                    bool isAnonymous = false
+            )
             : base(id)
         {
             if (userId == null && roleId == null)
@@ -56,6 +56,7 @@ namespace RavinaFaradid.Forms.Domain.Entities
             PermissionLevel = permissionLevel;
             UserId = userId;
             RoleId = roleId;
+            IsAnonymous = isAnonymous;
         }
 
         public void SetPrincipal(Guid? userId, Guid? roleId)

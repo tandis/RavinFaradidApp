@@ -170,6 +170,14 @@ namespace RavinaFaradid.Forms.EntityFrameworkCore
 
                 b.HasIndex(x => new { x.FormId, x.UserId, x.RoleId })
                     .IsUnique(false);
+
+                b.HasIndex(x => new { x.FormId, x.IsAnonymous, x.UserId, x.RoleId })
+                    .IsUnique();
+
+                b.HasCheckConstraint("CK_FormPermission_Principal",
+                    "(IsAnonymous = 1 AND UserId IS NULL AND RoleId IS NULL) " +
+                    "OR (IsAnonymous = 0 AND ((UserId IS NOT NULL AND RoleId IS NULL) OR (UserId IS NULL AND RoleId IS NOT NULL)))"
+                );
             });
 
 

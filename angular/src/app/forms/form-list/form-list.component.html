@@ -35,9 +35,10 @@
       <button class="btn btn-sm btn-danger" (click)="remove(row.id)">
         {{ 'RavinaFaradid::Forms:Delete' | abpLocalization }}
       </button>
-      <a [routerLink]="['/forms', row.id, 'permissions']" class="btn btn-outline-secondary btn-sm">
-دسترسی‌ها
-</a>
+    <button class="btn btn-outline-primary btn-sm"
+        (click)="openPermissionsModal(row); $event.stopPropagation()">
+  {{ 'RavinaFaradid::Ui:Permissions' | abpLocalization }}
+</button>
     </ng-template>
   </ngx-datatable-column>
 

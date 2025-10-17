@@ -1,13 +1,12 @@
 import { mapEnumToOptions } from '@abp/ng.core';
 
-export enum FormPermissionLevel {
-  None = 0,
-  View = 1,
-  Submit = 2,
-  Edit = 3,
-  Publish = 4,
-  Delete = 5,
-  Owner = 6,
+export enum FormParticipationLevel
+{
+    None        = 0, // هیچ دسترسی
+    View        = 1, // مشاهده فرم (Form صفحه و سوالات)
+    Submit      = 2, // ارسال پاسخ
+    ManageOwn   = 3  // مشاهده/ویرایش/حذف پاسخ‌های «خودِ کاربر»
+    // در آینده اگر خواستی: Review, ManageAllResponses, ...
 }
 
-export const formPermissionLevelOptions = mapEnumToOptions(FormPermissionLevel);
+export const formPermissionLevelOptions = mapEnumToOptions(FormParticipationLevel);

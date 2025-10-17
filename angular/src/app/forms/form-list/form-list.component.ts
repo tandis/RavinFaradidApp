@@ -6,6 +6,8 @@ import { FormDto } from '@proxy/forms/application/contracts/dtos';
 import { PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import { LocalizationPipe } from '@abp/ng.core';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PermissionsPageComponent } from 'src/app/features/forms-permissions/permissions-page/permissions-page.component';
 
 @Component({
   selector: 'app-form-list',
@@ -26,12 +28,22 @@ export class FormListComponent implements OnInit {
     { name: 'Forms::Operations' }
   ];
 
-  constructor(private formService: FormService, private router: Router) {}
+  constructor(private formService: FormService,
+    private modal: NgbModal,
+    private router: Router) {}
 
   ngOnInit() {
     this.load();
     console.log(LocalizationPipe)
   }
+
+  openPermissionsModal(form: FormDto) {
+  const ref = this.modal.open(PermissionsPageComponent, {
+    size: 'lg', centered: true, backdrop: 'static', keyboard: false
+  });
+  ref.componentInstance.formId = form.id;
+  //ref.componentInstance.formName = form.name;
+}
 
   load() {
     this.loading = true;

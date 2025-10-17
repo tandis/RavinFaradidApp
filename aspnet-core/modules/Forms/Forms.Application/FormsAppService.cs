@@ -17,6 +17,7 @@ using Volo.Abp.Uow;
 using Volo.Abp.ObjectMapping;
 using Forms.Application.Contracts.Dtos;
 using Forms.Domain.Domain.Managers;
+using Forms.Application.Contracts.Interface;
 
 namespace RavinaFaradid.Forms.Application
 {
@@ -33,10 +34,12 @@ namespace RavinaFaradid.Forms.Application
         private readonly IRepository<FormVersion, Guid> _versionRepo;
         private readonly ICurrentUser _currentUser;
         private readonly FormVersionManager _formVersionManager;
+        private readonly IFormAccessCheckerAppService _access;
 
         public FormAppService(IRepository<Form, Guid> formRepo,
             IRepository<FormVersion, Guid> versionRepo,
-        ICurrentUser currentUser, FormVersionManager formVersionManager
+        ICurrentUser currentUser, FormVersionManager formVersionManager,
+        IFormAccessCheckerAppService access
             ) :base(formRepo)
             
         {
@@ -44,8 +47,29 @@ namespace RavinaFaradid.Forms.Application
             _versionRepo = versionRepo;
             _currentUser = currentUser;
             _formVersionManager = formVersionManager;
+            _access = access;
         }
 
+
+        //public async Task<FormViewerDto> GetFormForFillAsync(Guid formId)
+        //{
+        //    await _access.EnsureAsync(formId, FormPermissionLevel.View);
+        //    // ...
+        //}
+
+        //[AllowAnonymous]
+        //public async Task SubmitResponseAsync(Guid formId, CreateResponseDto dto)
+        //{
+        //    await _access.EnsureAsync(formId, FormPermissionLevel.Submit);
+        //    // ...
+        //}
+
+        //[Authorize] // نیاز به لاگین برای «own»
+        //public async Task<PagedResultDto<FormResponseDto>> GetMyResponsesAsync(Guid formId, PagedAndSortedResultRequestDto input)
+        //{
+        //     await _access.EnsureAsync(formId, FormPermissionLevel.ManageOwn /* یا ManageOwn اگر جدا داری */);
+        //    // فقط پاسخ‌های CurrentUser.Id را برگردان
+        //}
 
         [Authorize(RavinaFaradidFormsPermissions.Forms.Default)]
         public override Task<PagedResultDto<FormDto>> GetListAsync(PagedAndSortedResultRequestDto input)

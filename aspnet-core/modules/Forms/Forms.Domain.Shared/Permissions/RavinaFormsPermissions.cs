@@ -12,16 +12,18 @@ namespace RavinaFaradid.Forms.Permissions
 
         public static class Forms
         {
-            public const string Default = GroupName + ".Forms";         // List/Get
+            public const string Default = GroupName + ".Forms";            // خواندن/لیست
             public const string Create = GroupName + ".Forms.Create";
             public const string Update = GroupName + ".Forms.Update";
             public const string Delete = GroupName + ".Forms.Delete";
-            public const string Publish = GroupName + ".Forms.Publish";  // publish/unpublish/archive
-            public const string Assign = GroupName + ".Forms.Assign";   // FormAssignments
+            public const string Publish = GroupName + ".Forms.Publish";
+            public const string Assign = GroupName + ".Forms.Assign";
             public const string ManagePermissions = GroupName + ".Forms.ManagePermissions";
-            //public const string Default = GroupName + ".FormPermissions";
-            public const string View = Default + ".View";
-            public const string Manage = Default + ".Manage";
+
+            // 🔸 شاخه‌ی Legacy برای سازگاری (به‌تدریج حذفش کن)
+            public const string FormDefault = GroupName + ".FormPermissions";
+            public const string View = FormDefault + ".View";    // فقط برای کد قدیمی
+            public const string Manage = FormDefault + ".Manage";  // فقط برای کد قدیمی
         }
 
         public static class Responses
