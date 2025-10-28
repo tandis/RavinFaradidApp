@@ -220,6 +220,7 @@ public class RavinaFaradidHttpApiHostModule : AbpModule
             var configuration = context.ServiceProvider.GetRequiredService<IConfiguration>();
             c.OAuthClientId(configuration["AuthServer:SwaggerClientId"]);
             c.OAuthScopes("RavinaFaradid");
+            
         });
 
         app.UseAuditing();

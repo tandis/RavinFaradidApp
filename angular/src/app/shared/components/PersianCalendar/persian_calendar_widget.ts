@@ -102,6 +102,7 @@ export class PersianCalendarComponent extends QuestionAngular<QuestionPersianCal
 
   constructor(private cdr: ChangeDetectorRef, private elementRef: ElementRef) {
     super(cdr);
+    console.log(elementRef)
   }
   ngOnChanges(changes: SimpleChanges) {
   }

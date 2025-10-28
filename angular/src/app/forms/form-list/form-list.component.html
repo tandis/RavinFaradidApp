@@ -24,22 +24,111 @@
     </ng-template>
   </ngx-datatable-column>
 
-  <ngx-datatable-column [name]="'RavinaFaradid::Forms:Operations' | abpLocalization">
+  <ngx-datatable-column [name]="'RavinaFaradid::Forms:Operations' | abpLocalization"
+   [maxWidth]="120"
+    [sortable]="false"
+    [canAutoResize]="false">
     <ng-template let-row="row" ngx-datatable-cell-template>
-      <button class="btn btn-sm btn-secondary" (click)="edit(row.id)">
-        {{ 'RavinaFaradid::Forms:Edit' | abpLocalization }}
-      </button>
-      <button class="btn btn-sm btn-info" (click)="view(row.id)">
-        {{ 'RavinaFaradid::Forms:View' | abpLocalization }}
-      </button>
-      <button class="btn btn-sm btn-danger" (click)="remove(row.id)">
-        {{ 'RavinaFaradid::Forms:Delete' | abpLocalization }}
-      </button>
-    <button class="btn btn-outline-primary btn-sm"
-        (click)="openPermissionsModal(row); $event.stopPropagation()">
-  {{ 'RavinaFaradid::Ui:Permissions' | abpLocalization }}
-</button>
+      <div ngbDropdown container="body" class="d-inline-block" (click)="$event.stopPropagation()">
+        <button class="btn btn-light btn-sm" ngbDropdownToggle aria-label="Actions">
+          عملیات فرم
+
+        </button>
+        <div ngbDropdownMenu class="shadow-sm">
+
+          <!-- جدید: نمایش اطلاعات ذخیره‌شده (Responses) -->
+          <button ngbDropdownItem (click)="viewResponses(row.id)">
+             <i class="fa-solid fa-table-list me-2"></i>
+            {{ 'RavinaFaradid::Forms:Responses' | abpLocalization }}
+          </button>
+
+          <!-- جدید: اشتراک‌گذاری -->
+          <button ngbDropdownItem (click)="share(row)">
+             <i class="fa-solid fa-share-nodes me-2"></i>
+            {{ 'RavinaFaradid::Forms:Share' | abpLocalization }}
+          </button>
+
+          <!-- جدید: داشبورد نموداری -->
+          <button ngbDropdownItem (click)="openDashboard(row.id)">
+             <i class="fa-solid fa-chart-line me-2"></i>
+            {{ 'RavinaFaradid::Forms:Dashboard' | abpLocalization }}
+          </button>
+
+          <div class="dropdown-divider"></div>
+
+          <button ngbDropdownItem (click)="view(row.id)">
+             <i class="fa-solid fa-eye me-2"></i>
+            {{ 'RavinaFaradid::Forms:View' | abpLocalization }}
+          </button>
+          <button ngbDropdownItem (click)="edit(row.id)">
+            <i class="fa-solid fa-pen-to-square me-2"></i>
+            {{ 'RavinaFaradid::Forms:Edit' | abpLocalization }}
+          </button>
+
+            <!-- مجوزها -->
+        <button ngbDropdownItem (click)="openPermissionsModal(row)">
+          <i class="fa-solid fa-shield-halved me-2"></i>
+          {{ 'RavinaFaradid::Ui:Permissions' | abpLocalization }}
+        </button>
+
+          <div class="dropdown-divider"></div>
+
+          <button ngbDropdownItem class="text-danger" (click)="remove(row.id)">
+            <i class="fa-solid fa-trash-can me-2"></i>
+            {{ 'RavinaFaradid::Forms:Delete' | abpLocalization }}
+          </button>
+        </div>
+      </div>
     </ng-template>
+
   </ngx-datatable-column>
 
 </ngx-datatable>
+
+<!-- Modal اشتراک‌گذاری + QR -->
+<ng-template #shareTpl>
+  <div class="modal-header py-2">
+    <h6 class="modal-title">
+      {{ 'RavinaFaradid::Forms:Share' | abpLocalization }}
+    </h6>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismissAll()"></button>
+  </div>
+
+  <div class="modal-body">
+    <!-- لینک عمومی -->
+    <label class="form-label d-block mb-1">
+      {{ 'RavinaFaradid::Forms:PublicLink' | abpLocalization }}
+    </label>
+    <div class="input-group mb-3">
+      <input class="form-control" [value]="shareLink" readonly #shareInput />
+      <button class="btn btn-outline-secondary" (click)="copyShareLink(shareInput)">
+        {{ 'RavinaFaradid::Ui:Copy' | abpLocalization }}
+      </button>
+    </div>
+
+    <!-- QRCode -->
+    <div class="text-center">
+<qrcode
+  [qrdata]="shareLink"
+  [width]="220"
+  [errorCorrectionLevel]="'M'"
+  elementType="img"
+  (qrCodeURL)="onQrCodeGenerated($event)">
+</qrcode>
+
+      <div class="mt-2 small text-muted">
+        {{ 'RavinaFaradid::Forms:ScanToOpen' | abpLocalization }}
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer py-2 d-flex justify-content-between">
+    <button class="btn btn-light" (click)="modal.dismissAll()">
+      {{ '::Close' | abpLocalization }}
+    </button>
+    <button class="btn btn-outline-primary" [disabled]="!qrPngDataUrl" (click)="downloadQrPng()">
+      {{ 'RavinaFaradid::Forms:DownloadQr' | abpLocalization }}
+    </button>
+  </div>
+</ng-template>
+

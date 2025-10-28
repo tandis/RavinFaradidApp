@@ -1,8 +1,14 @@
 :host { display: block; }
-.viewer-shell {  }
+.viewer-shell {  margin: -1.25em -2em -3em !important; }
 
 .viewer-header .title-row {
   display: flex; gap: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap;
+}
+
+.viewer-scroll {
+    max-height: calc(100vh - 73px) !important;
+    overflow-y: auto;
+    min-height: 0;
 }
 
 .title { margin: 0; font-size: 1.375rem; font-weight: 700; }

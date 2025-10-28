@@ -873,6 +873,188 @@
       "rootPath": "app",
       "remoteServiceName": "Default",
       "controllers": {
+        "Forms.Application.FormAccessCheckerAppService": {
+          "controllerName": "FormAccessChecker",
+          "controllerGroupName": "FormAccessChecker",
+          "isRemoteService": true,
+          "isIntegrationService": false,
+          "apiVersion": null,
+          "type": "Forms.Application.FormAccessCheckerAppService",
+          "interfaces": [
+            {
+              "type": "Forms.Application.Contracts.Interface.IFormAccessCheckerAppService",
+              "name": "IFormAccessCheckerAppService",
+              "methods": [
+                {
+                  "name": "GetEffectiveLevelAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "formId",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "userIdOrEmpty",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "RavinaFaradid.Forms.Domain.Entities.FormPermissionLevel",
+                    "typeSimple": "enum"
+                  }
+                },
+                {
+                  "name": "EnsureAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "formId",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    },
+                    {
+                      "name": "required",
+                      "typeAsString": "RavinaFaradid.Forms.Domain.Entities.FormPermissionLevel, Forms.Domain",
+                      "type": "RavinaFaradid.Forms.Domain.Entities.FormPermissionLevel",
+                      "typeSimple": "enum",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Void",
+                    "typeSimple": "System.Void"
+                  }
+                }
+              ]
+            }
+          ],
+          "actions": {
+            "GetEffectiveLevelAsyncByFormIdAndUserIdOrEmpty": {
+              "uniqueName": "GetEffectiveLevelAsyncByFormIdAndUserIdOrEmpty",
+              "name": "GetEffectiveLevelAsync",
+              "httpMethod": "GET",
+              "url": "api/app/form-access-checker/effective-level/{formId}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "formId",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "userIdOrEmpty",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "formId",
+                  "name": "formId",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "userIdOrEmpty",
+                  "name": "userIdOrEmpty",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "RavinaFaradid.Forms.Domain.Entities.FormPermissionLevel",
+                "typeSimple": "enum"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Forms.Application.Contracts.Interface.IFormAccessCheckerAppService"
+            },
+            "EnsureAsyncByFormIdAndRequired": {
+              "uniqueName": "EnsureAsyncByFormIdAndRequired",
+              "name": "EnsureAsync",
+              "httpMethod": "POST",
+              "url": "api/app/form-access-checker/ensure/{formId}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "formId",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "required",
+                  "typeAsString": "RavinaFaradid.Forms.Domain.Entities.FormPermissionLevel, Forms.Domain",
+                  "type": "RavinaFaradid.Forms.Domain.Entities.FormPermissionLevel",
+                  "typeSimple": "enum",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "formId",
+                  "name": "formId",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "required",
+                  "name": "required",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
+              },
+              "allowAnonymous": null,
+              "implementFrom": "Forms.Application.Contracts.Interface.IFormAccessCheckerAppService"
+            }
+          }
+        },
         "RavinaFaradid.Forms.Application.FormAppService": {
           "controllerName": "Form",
           "controllerGroupName": "Form",
@@ -3749,11 +3931,11 @@
               "allowAnonymous": false,
               "implementFrom": "Forms.Application.Contracts.Interface.IFormPermissionAppService"
             },
-            "GetEffectiveLevelAsyncByFormIdAndUserId": {
-              "uniqueName": "GetEffectiveLevelAsyncByFormIdAndUserId",
+            "GetEffectiveLevelAsyncByFormIdAndUserIdOrEmpty": {
+              "uniqueName": "GetEffectiveLevelAsyncByFormIdAndUserIdOrEmpty",
               "name": "GetEffectiveLevelAsync",
               "httpMethod": "GET",
-              "url": "api/app/form-permission/effective-level",
+              "url": "api/app/form-permission/effective-level/{formId}",
               "supportedVersions": [],
               "parametersOnMethod": [
                 {
@@ -3765,7 +3947,7 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "userId",
+                  "name": "userIdOrEmpty",
                   "typeAsString": "System.Guid, System.Private.CoreLib",
                   "type": "System.Guid",
                   "typeSimple": "string",
@@ -3782,13 +3964,13 @@
                   "typeSimple": "string",
                   "isOptional": false,
                   "defaultValue": null,
-                  "constraintTypes": null,
-                  "bindingSourceId": "ModelBinding",
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
                   "descriptorName": ""
                 },
                 {
-                  "nameOnMethod": "userId",
-                  "name": "userId",
+                  "nameOnMethod": "userIdOrEmpty",
+                  "name": "userIdOrEmpty",
                   "jsonName": null,
                   "type": "System.Guid",
                   "typeSimple": "string",
@@ -3976,6 +4158,137 @@
               },
               "allowAnonymous": false,
               "implementFrom": "Forms.Application.Contracts.Interface.IFormPermissionAppService"
+            },
+            "GetAnonymousLevelAsyncByFormId": {
+              "uniqueName": "GetAnonymousLevelAsyncByFormId",
+              "name": "GetAnonymousLevelAsync",
+              "httpMethod": "GET",
+              "url": "api/app/form-permission/anonymous-level/{formId}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "formId",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "formId",
+                  "name": "formId",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "RavinaFaradid.Forms.Domain.Entities.FormPermissionLevel?",
+                "typeSimple": "enum?"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "RavinaFaradid.Forms.Permissions.FormPermissionAppService"
+            },
+            "SetAnonymousLevelAsyncByFormIdAndLevel": {
+              "uniqueName": "SetAnonymousLevelAsyncByFormIdAndLevel",
+              "name": "SetAnonymousLevelAsync",
+              "httpMethod": "POST",
+              "url": "api/app/form-permission/set-anonymous-level/{formId}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "formId",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                },
+                {
+                  "name": "level",
+                  "typeAsString": "RavinaFaradid.Forms.Domain.Entities.FormPermissionLevel, Forms.Domain",
+                  "type": "RavinaFaradid.Forms.Domain.Entities.FormPermissionLevel",
+                  "typeSimple": "enum",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "formId",
+                  "name": "formId",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                },
+                {
+                  "nameOnMethod": "level",
+                  "name": "level",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "RavinaFaradid.Forms.Permissions.FormPermissionAppService"
+            },
+            "DisableAnonymousAsyncByFormId": {
+              "uniqueName": "DisableAnonymousAsyncByFormId",
+              "name": "DisableAnonymousAsync",
+              "httpMethod": "POST",
+              "url": "api/app/form-permission/disable-anonymous/{formId}",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "formId",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "formId",
+                  "name": "formId",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "RavinaFaradid.Forms.Permissions.FormPermissionAppService"
             }
           }
         }
@@ -6940,6 +7253,18 @@
           "minimum": null,
           "maximum": null,
           "regex": null
+        },
+        {
+          "name": "IsAnonymous",
+          "jsonName": null,
+          "type": "System.Boolean",
+          "typeSimple": "boolean",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
         }
       ]
     },
@@ -7015,6 +7340,18 @@
           "jsonName": null,
           "type": "System.String",
           "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "IsAnonymous",
+          "jsonName": null,
+          "type": "System.Boolean",
+          "typeSimple": "boolean",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -8244,6 +8581,18 @@
           "regex": null
         },
         {
+          "name": "IsAnonymous",
+          "jsonName": null,
+          "type": "System.Boolean",
+          "typeSimple": "boolean",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
           "name": "PermissionLevel",
           "jsonName": null,
           "type": "RavinaFaradid.Forms.Domain.Entities.FormPermissionLevel",
@@ -8288,19 +8637,13 @@
         "None",
         "View",
         "Submit",
-        "Edit",
-        "Publish",
-        "Delete",
-        "Owner"
+        "ManageOwn"
       ],
       "enumValues": [
         0,
         1,
         2,
-        3,
-        4,
-        5,
-        6
+        3
       ],
       "genericArguments": null,
       "properties": null
@@ -8518,6 +8861,41 @@
       ],
       "genericArguments": null,
       "properties": null
+    },
+    "System.Nullable<T0>": {
+      "baseType": "System.ValueType",
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": [
+        "T"
+      ],
+      "properties": [
+        {
+          "name": "HasValue",
+          "jsonName": null,
+          "type": "System.Boolean",
+          "typeSimple": "boolean",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Value",
+          "jsonName": null,
+          "type": "T",
+          "typeSimple": "T",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
     },
     "Volo.Abp.Account.ChangePasswordInput": {
       "baseType": null,

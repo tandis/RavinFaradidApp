@@ -12,9 +12,9 @@
     "Forms:Description": "توضیحات",
     "Forms:Active": "فعال",
     "Forms:Operations": "عملیات",
-    "Forms:Edit": "✏️ ویرایش",
-    "Forms:View": "👁️ نمایش",
-    "Forms:Delete": "🗑️ حذف",
+    "Forms:Edit": " ویرایش",
+    "Forms:View": " نمایش",
+    "Forms:Delete": " حذف",
     "Forms:ConfirmDelete": "آیا مطمئن هستید؟",
     "Forms:Templates": "تمپلت‌ها",
     "Forms:Responses": "پاسخ‌ها",
@@ -53,7 +53,7 @@
     "Ui:Permissions": "دسترسی‌ها",
     "Ui:FormId": "شناسه فرم",
     "Ui:Grant": "اعطا",
-    "Ui:MustHavePermission": "برای تغییر باید مجوز مدیریت را داشته باشید.",
+    "Ui:MustHavePermission": "برای تغییر باید مجوز مدیریت فرم را داشته باشید.",
     "Ui:User": "کاربر",
     "Ui:Role": "نقش",
     "Ui:GUID": "شناسه GUID",
@@ -82,6 +82,14 @@
     "Ui:None": "بدون دسترسی",
     "Ui:View": "مشاهده",
     "Ui:ManagePermissions": "مدیریت دسترسی",
+    "Ui:SearchUser": "جستجو کاربر",
+    "Ui:SearchRole": "جستجو نقش",
+    "Ui:Clear": "پاک کردن",
+    "Ui:Anonymous": "ناشناس",
+    "Forms:Share": "اشتراک گذاری",
+    "Forms:Dashboard": "داشبورد",
+    "Forms:PublicLink": "لینک عمومی فرم",
+    "Ui:Copy": "کپی",
     "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io."
   }
 }

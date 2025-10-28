@@ -1,11 +1,16 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using RavinaFaradid.Forms.Application.Mapping;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Identity;
 using Volo.Abp.Modularity;
 
 namespace RavinaFaradid.Forms.Application
 {
-[DependsOn(typeof(FormsApplicationContractsModule),typeof(FormsDomainModule), typeof(AbpIdentityDomainModule))] 
+[DependsOn(typeof(FormsApplicationContractsModule),
+        typeof(FormsDomainModule), 
+        typeof(AbpIdentityDomainModule),
+        typeof(AbpAutoMapperModule)
+        )] 
     public class FormsApplicationModule: AbpModule{
         public override void ConfigureServices(ServiceConfigurationContext context)
         {

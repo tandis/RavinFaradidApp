@@ -2,9 +2,9 @@ import { Component, OnDestroy, OnInit, Optional, Inject, signal, computed } from
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SurveyModule } from 'survey-angular-ui';
-import { Model } from 'survey-core';
-import "survey-creator-core/i18n/persian";
-
+import { Model, surveyLocalization } from 'survey-core';
+//import "survey-creator-core/i18n/persian";
+import "survey-core/survey.i18n";
 import { Subject, switchMap, takeUntil, of, tap, catchError, map } from 'rxjs';
 import { RestService, Rest } from '@abp/ng.core';
 
@@ -13,7 +13,7 @@ import { FormResponseService } from '@proxy/forms/application/form-response.serv
 
 // ⬅️ مسیر ایمپورت را با پروژه‌ی خودت تنظیم کن
 import type { FormDto, FormVersionDto /* , CreateFormResponseDto */ } from '@proxy/forms/application/contracts/dtos/models';
-
+surveyLocalization.locales["fa"];
 interface FormViewerVersionDto {
   id: string;
   versionNumber: number;
@@ -117,7 +117,7 @@ export class FormViewerComponent implements OnInit, OnDestroy {
         // با توجه به اسکیمای DB (ResponseData NVARCHAR(MAX) + CHECK isjson) بهتره string بفرستیم
         responseData: JSON.stringify(sender.data)
       };
-
+console.log(payload)
       this.loading.set(true);
       this.responses.create(payload)
         .pipe(

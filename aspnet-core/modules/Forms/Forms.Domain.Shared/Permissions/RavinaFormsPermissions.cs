@@ -21,9 +21,9 @@ namespace RavinaFaradid.Forms.Permissions
             public const string ManagePermissions = GroupName + ".Forms.ManagePermissions";
 
             // 🔸 شاخه‌ی Legacy برای سازگاری (به‌تدریج حذفش کن)
-            public const string FormDefault = GroupName + ".FormPermissions";
-            public const string View = FormDefault + ".View";    // فقط برای کد قدیمی
-            public const string Manage = FormDefault + ".Manage";  // فقط برای کد قدیمی
+            //public const string FormDefault = GroupName + ".FormPermissions";
+            //public const string View = FormDefault + ".View";    // فقط برای کد قدیمی
+            //public const string Manage = FormDefault + ".Manage";  // فقط برای کد قدیمی
         }
 
         public static class Responses

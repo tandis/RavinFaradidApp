@@ -19,7 +19,7 @@ namespace Forms.EntityFrameworkCore.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("_Abp_DatabaseProvider", EfCoreDatabaseProvider.SqlServer)
-                .HasAnnotation("ProductVersion", "9.0.9")
+                .HasAnnotation("ProductVersion", "9.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -284,6 +284,9 @@ namespace Forms.EntityFrameworkCore.Migrations
                     b.Property<Guid>("FormId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<bool>("IsAnonymous")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
@@ -316,7 +319,14 @@ namespace Forms.EntityFrameworkCore.Migrations
 
                     b.HasIndex("FormId", "UserId", "RoleId");
 
-                    b.ToTable("FormPermissions", (string)null);
+                    b.HasIndex("FormId", "IsAnonymous", "UserId", "RoleId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL AND [RoleId] IS NOT NULL");
+
+                    b.ToTable("FormPermissions", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_FormPermission_Principal", "(IsAnonymous = 1 AND UserId IS NULL AND RoleId IS NULL) OR (IsAnonymous = 0 AND ((UserId IS NOT NULL AND RoleId IS NULL) OR (UserId IS NULL AND RoleId IS NOT NULL)))");
+                        });
                 });
 
             modelBuilder.Entity("RavinaFaradid.Forms.Domain.Entities.FormResponse", b =>
@@ -543,7 +553,11 @@ namespace Forms.EntityFrameworkCore.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FormId");
+                    b.HasIndex("FormId", "Status")
+                        .IsUnique()
+                        .HasFilter("[Status] = 0");
+
+                    b.HasIndex("FormId", "VersionNumber");
 
                     b.ToTable("FormVersions", null, t =>
                         {

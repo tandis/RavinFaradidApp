@@ -12,10 +12,13 @@ import { SurveyCreatorModule } from 'survey-creator-angular';
 import { LocalizationPipe, ConfigStateService, LocalizationService } from '@abp/ng.core';
 import { ToasterService } from '@abp/ng.theme.shared';
 import { DirtyAware } from '../pending-changes.guard';
+import { PersianCalendarComponent } from '../../shared/components/PersianCalendar/persian_calendar_widget';
+
 import Swal from 'sweetalert2';
 import { firstValueFrom } from 'rxjs';
 import "survey-creator-core/i18n/persian";
 editorLocalization.currentLocale = "fa";
+editorLocalization.locales["fa"].qt["persiancalendar"] = "تقویم شمسی";
 // کلیدهای لوکالایزیشن در یک آبجکت واحد
 const LK = {
   PublishConfirmTitle: 'RavinaFaradid::Forms:PublishConfirmTitle',
@@ -70,7 +73,7 @@ export class FormCreateComponent implements OnInit, AfterViewInit, OnDestroy, Di
   private boundAdjustHeight = this.adjustHeight.bind(this);
 
   // نگهداری شناسه فرم (اول create، بعداً update)
-  private formId: string | null = localStorage.getItem('form-create-formId');
+  private formId: string | null = localStorage.getItem(FORM_ID_KEY);
 
   // فرم متادیتا
   metaForm = this.fb.group({
@@ -128,7 +131,7 @@ export class FormCreateComponent implements OnInit, AfterViewInit, OnDestroy, Di
   }
 
   hasUnsavedChanges(): boolean {
-    return this.dirty || !!localStorage.getItem('form-create-draft');
+    return this.dirty || !!localStorage.getItem(DRAFT_KEY);
   }
 
   private adjustHeight() {
@@ -161,6 +164,22 @@ export class FormCreateComponent implements OnInit, AfterViewInit, OnDestroy, Di
     });
   }
 
+  private buildDtoFor(mode: 'draft' | 'publish'): CreateUpdateFormDto {
+    const json = (this.creator as any)?.JSON ?? {};
+    const theme = (this.creator as any)?.theme ?? (this.creator as any)?.themeEditorModel?.themeJson ?? {};
+
+    return {
+      title: json.title,
+      description:json.description,
+      // در Draft مقدار فعلی فرم را دست‌نخورده می‌گذاریم؛ در Publish می‌توانی true کنی (بسته به بک‌اند)
+      isActive: mode === 'publish',
+      isDeleted:false,
+      jsonDefinition: JSON.stringify(json),
+      themeDefinition: JSON.stringify(theme),
+      isAnonymousAllowed: false
+    } as CreateUpdateFormDto;
+  }
+
 async saveAndPublish() {
 
   try {
@@ -175,32 +194,33 @@ async saveAndPublish() {
         this.formService.create(metaDto, { apiName: 'default' })
       );
       this.formId = created.id;
-      localStorage.setItem('form-create-formId', this.formId!);
+      localStorage.setItem(FORM_ID_KEY, this.formId!);
     }
 
     // 2) ساخت payload از وضعیت فعلی Designer
-    const payload: CreateUpdateFormDto = {
-      jsonDefinition: JSON.stringify((this.creator as any)?.JSON ?? {}),
-      themeDefinition: JSON.stringify(
-        (this.creator as any)?.theme ??
-        (this.creator as any)?.themeEditorModel?.themeJson ?? {}
-      ),
-      title:  (this.creator as any).Title,
-      isActive: true,
-      isAnonymousAllowed: false,
-      isDeleted:false,
-      id:''
-    };
+    // const payload: CreateUpdateFormDto = {
+    //   jsonDefinition: JSON.stringify((this.creator as any)?.JSON ?? {}),
+    //   themeDefinition: JSON.stringify(
+    //     (this.creator as any)?.theme ??
+    //     (this.creator as any)?.themeEditorModel?.themeJson ?? {}
+    //   ),
+    //   title: (this.creator as any).Title,
+    //   isActive: true,
+    //   isAnonymousAllowed: false,
+    //   isDeleted: false
+    // };
+
+     const dto = this.buildDtoFor('publish');
 
     // 3) فراخوانی سرویس انتشار واحد
     await firstValueFrom(
-      this.formService.saveAndPublish(this.formId!, payload, { apiName: 'default' })
+      this.formService.saveAndPublish(this.formId!, dto, { apiName: 'default' })
     );
 
     // 4) موفقیت: پاک‌سازی و هدایت
     this.dirty = false;
     this.clearDraft();
-    localStorage.removeItem('form-create-formId');
+    localStorage.removeItem(FORM_ID_KEY);
     this.toaster.success(this.l('Forms:SavedAndPublished')); // یا pipe abpLocalization
     this.router.navigateByUrl('/forms/list');
   } catch (err: any) {
@@ -233,7 +253,7 @@ async saveAndPublish() {
         if (!this.formId && result?.id) {
           this.formId = result.id as any;
           this.dirty = true;
-          localStorage.setItem('form-create-formId', this.formId);
+          localStorage.setItem(FORM_ID_KEY, this.formId);
         }
         this.dirty = true;
         this.clearDraft();
@@ -242,7 +262,7 @@ async saveAndPublish() {
         this.toaster.success(msg);
 
         if (mode === 'publish') {
-          localStorage.removeItem('form-create-formId');
+          localStorage.removeItem(FORM_ID_KEY);
           this.router.navigateByUrl('/forms/list');
         }
         resolve();
@@ -329,6 +349,7 @@ private tryRestoreDraftFromLocal(): void {
       this.loadDraftFromLocal();
     } else {
       localStorage.removeItem(DRAFT_KEY);
+      localStorage.removeItem(FORM_ID_KEY);
     }
   });
 }

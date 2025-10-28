@@ -40,6 +40,7 @@ export interface FormPermission extends FullAuditedAggregateRoot<string> {
   formId?: string;
   userId?: string;
   roleId?: string;
+  isAnonymous: boolean;
   permissionLevel?: FormPermissionLevel;
   tenantId?: string;
   form: Form;

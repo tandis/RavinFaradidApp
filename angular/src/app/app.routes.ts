@@ -1,8 +1,15 @@
 import { Routes } from '@angular/router';
 import { formsRoutes } from './forms/forms.routes';
-import { eLayoutType } from '@abp/ng.core';
+import { AuthGuard, eLayoutType } from '@abp/ng.core';
 
-export const appRoutes: Routes = [
+export const appRoutes: Routes = [{
+  path: 'forms/:formId/permissions',
+  canActivate: [AuthGuard],
+  data: { requiredPolicy: 'Ravina.Forms.FormPermissions.View' },
+  loadComponent: () =>
+  import('./features/forms-permissions/permissions-page/permissions-page.component')
+  .then(m => m.PermissionsPageComponent)
+  },
   {
     path: '',
     pathMatch: 'full',

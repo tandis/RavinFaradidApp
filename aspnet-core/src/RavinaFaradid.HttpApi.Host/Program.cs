@@ -32,9 +32,11 @@ public class Program
             builder.Host.AddAppSettingsSecretsJson()
                 .UseAutofac()
                 .UseSerilog();
+                //.ConfigureEndatix();
             await builder.AddApplicationAsync<RavinaFaradidHttpApiHostModule>();
             var app = builder.Build();
             await app.InitializeApplicationAsync();
+            //app.UseEndatix();
             await app.RunAsync();
             return 0;
         }

@@ -1,6 +1,6 @@
 import type { AuditedEntityDto, PagedAndSortedResultRequestDto } from '@abp/ng.core';
 import type { FullAuditedEntityDto } from '../../../../abp/application/services/dto/models';
-import type { FormParticipationLevel } from '../../../domain/entities/form-permission-level.enum';
+import type { FormPermissionLevel } from '../../../domain/entities/form-permission-level.enum';
 
 export interface CreateFormResponseDto extends FullAuditedEntityDto<string> {
   formId?: string;
@@ -100,17 +100,19 @@ export interface CreateUpdateFormPermissionDto {
   formId: string;
   userId?: string;
   roleId?: string;
-  permissionLevel: FormParticipationLevel;
+  permissionLevel: FormPermissionLevel;
   concurrencyStamp?: string;
+  isAnonymous: boolean;
 }
 
 export interface FormPermissionDto extends AuditedEntityDto<string> {
   formId?: string;
   userId?: string;
   roleId?: string;
-  permissionLevel?: FormParticipationLevel;
+  permissionLevel?: FormPermissionLevel;
   tenantId?: string;
   concurrencyStamp?: string;
+  isAnonymous: boolean;
 }
 
 export interface FormPermissionListInput extends PagedAndSortedResultRequestDto {

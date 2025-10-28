@@ -23,14 +23,4 @@ export const environment = {
       rootNamespace: 'RavinaFaradid',
     },
   },
- localization: {
-    // حتماً از این فیلد استفاده کن
-    defaultResourceName: 'RavinaFaradid',
-    // شکل درست LanguageInfo:
-    languages: [
-      { cultureName: 'fa', uiCultureName: 'fa-IR', displayName: 'فارسی', flagIcon: 'fi fi-ir' },
-      { cultureName: 'en', uiCultureName: 'en-US', displayName: 'English', flagIcon: 'fi fi-us' },
-    ],
-    fetchResources: true, // ✅ این مقدار را به true تغییر دهید
-  },
 } as Environment;

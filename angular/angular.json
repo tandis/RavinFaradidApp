@@ -116,7 +116,9 @@
               "node_modules/survey-core/survey-core.min.css",
               "node_modules/tabulator-tables/dist/css/tabulator.min.css",
               "node_modules/survey-analytics/survey.analytics.tabulator.min.css",
-              "node_modules/survey-analytics/survey.analytics.min.css"
+              "node_modules/survey-analytics/survey.analytics.min.css",
+              "node_modules/tabulator-tables/dist/css/tabulator.min.css",
+              "node_modules/survey-analytics/survey.analytics.tabulator.min.css"
             ],
             "scripts": []
           },

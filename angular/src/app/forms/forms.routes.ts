@@ -14,5 +14,6 @@ export const formsRoutes: Routes = [
 },
   { path: 'edit/:id', component: FormEditComponent },
   { path: 'view/:id', component: FormViewerComponent },
-  { path: 'templates', component: FormTemplateListComponent }
+  { path: 'templates', component: FormTemplateListComponent },
+  { path: 'viewresponse/:id', component: FormResponseListComponent}
 ];

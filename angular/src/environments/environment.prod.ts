@@ -10,7 +10,7 @@ export const environment = {
     logoUrl: '',
   },
   oAuthConfig: {
-    issuer: 'https://localhost:44338/',
+    issuer: 'https://localhost:44356/',
     redirectUri: baseUrl,
     clientId: 'RavinaFaradid_App',
     responseType: 'code',
@@ -19,24 +19,8 @@ export const environment = {
   },
   apis: {
     default: {
-      url: 'https://localhost:44338',
+      url: 'https://localhost:44356',
       rootNamespace: 'RavinaFaradid',
     },
-  },
-  leptonX: {
-    rtl: true,               // 👈 فعال بودن RTL
-    rtlLanguages: ['ar', 'fa'] // 👈 اضافه کردن فارسی
-  },
-  localization: {
-    languages: [
-      {
-        culture: 'fa',
-        name: 'فارسی',
-        // ...
-      },
-      // ... سایر زبان‌ها
-    ],
-    defaultCulture: 'fa',
-    fetchResources: true, // ✅ این مقدار را به true تغییر دهید
   },
 } as Environment;
