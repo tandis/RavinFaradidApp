@@ -35,6 +35,15 @@ export class FormResponseService {
     { apiName: this.apiName,...config });
   
 
+  getByLatestPublished = (formId: string, input: PagedAndSortedResultRequestDto, config?: Partial<Rest.Config>) =>
+    this.restService.request<any, PagedResultDto<FormResponseDto>>({
+      method: 'GET',
+      url: `/api/app/form-response/by-latest-published/${formId}`,
+      params: { sorting: input.sorting, skipCount: input.skipCount, maxResultCount: input.maxResultCount },
+    },
+    { apiName: this.apiName,...config });
+  
+
   getList = (input: PagedAndSortedResultRequestDto, config?: Partial<Rest.Config>) =>
     this.restService.request<any, PagedResultDto<FormResponseDto>>({
       method: 'GET',

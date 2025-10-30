@@ -90,6 +90,9 @@
     "Forms:Dashboard": "داشبورد",
     "Forms:PublicLink": "لینک عمومی فرم",
     "Ui:Copy": "کپی",
+    "Ui:FormResponseEdit": "ویرایش اطلاعات",
+    "Forms:DownloadQr": "دانلود QR",
+    "Forms:ScanToOpen": "برای نمایش فرم اسکن کنید",
     "LongWelcomeMessage": "Welcome to the application. This is a startup project based on the ABP framework. For more information, visit abp.io."
   }
 }

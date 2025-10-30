@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { FormListComponent } from './form-list/form-list.component';
 import { FormEditComponent } from './form-editor/form-edit.component';
 import { FormViewerComponent } from './form-viewer/form-viewer.component';
-import { FormResponseListComponent } from './form-response-list.component';
+import { FormResponseListComponent } from './responses/form-response-list.component';
 import { FormTemplateListComponent } from './form-template/form-template-list.component';
 import { PendingChangesGuard } from './pending-changes.guard'
 export const formsRoutes: Routes = [

@@ -133,3 +133,8 @@ body {
 
 /* اگر پروژه‌ات از این ظرف میانی هم استفاده می‌کند */
 .lpx-content-container { min-height: 0; }
+
+.sa-table__row-extension svg {
+  width: 100% !important;
+  height: 100% !important;
+}

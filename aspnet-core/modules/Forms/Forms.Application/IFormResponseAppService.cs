@@ -15,5 +15,8 @@ namespace RavinaFaradid.Forms.Application
   PagedAndSortedResultRequestDto,
   CreateFormResponseDto>, IApplicationService
     {
+        Task<PagedResultDto<FormResponseDto>> GetByLatestPublishedAsync(
+            Guid formId,
+            PagedAndSortedResultRequestDto input);
     }
 }
