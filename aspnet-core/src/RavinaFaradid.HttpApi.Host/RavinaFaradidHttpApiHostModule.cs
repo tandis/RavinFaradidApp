@@ -32,6 +32,12 @@ using Volo.Abp.VirtualFileSystem;
 using RavinaFaradid.Forms;
 using RavinaFaradid.Forms.EntityFrameworkCore;
 using RavinaFaradid.Forms.Application;
+using Elsa.Extensions;
+using Elsa.EntityFrameworkCore.Modules.Management;
+using Elsa.EntityFrameworkCore.Extensions;
+using Elsa.EntityFrameworkCore.Modules.Runtime;
+using Elsa.Identity.Features;
+
 
 namespace RavinaFaradid;
 
@@ -75,6 +81,56 @@ public class RavinaFaradidHttpApiHostModule : AbpModule
         ConfigureVirtualFileSystem(context);
         ConfigureCors(context, configuration);
         ConfigureSwaggerServices(context, configuration);
+        ConfigureElsa(context,configuration);
+    }
+
+    private void ConfigureElsa(ServiceConfigurationContext context, IConfiguration configuration)
+    {
+        //var configuration = context.Services.GetConfiguration();
+
+        context.Services.AddElsa(elsa =>
+        {
+            // 1️⃣ مدیریت Workflowها (تعریف و نسخه‌ها)
+            elsa.UseWorkflowManagement(management =>
+                management.UseEntityFrameworkCore(ef =>
+                    ef.UseSqlServer(configuration.GetConnectionString("Default"))));
+
+            // 2️⃣ Runtime اجرای Workflow
+            elsa.UseWorkflowRuntime(runtime =>
+                runtime.UseEntityFrameworkCore(ef =>
+                    ef.UseSqlServer(configuration.GetConnectionString("Default"))));
+
+
+            elsa.UseIdentity(identity =>
+            { 
+
+                // این بخش تنظیمات توکن را با OpenIddict (پیش‌فرض ABP) هماهنگ می‌کند
+                identity.TokenOptions = options =>
+                {
+                    options.SigningKey = configuration["AuthServer:SigningKey"];
+                    options.Issuer = configuration["AuthServer:Authority"];
+                    // Audience را دقیقاً مطابق با تنظیمات AuthServer خود در appsettings.json تنظیم کنید
+                    options.Audience = "RavinaFaradid"; // یا هر Audience ای که تعریف کرده‌اید
+                };
+
+                identity.UseAdminUserProvider();
+            });
+
+            // میزبانی Elsa Studio
+            //elsa.UseWorkflowManagement(management =>
+            //{
+            //    // این اطمینان می‌دهد که API های استودیو فعال هستند
+            //    management.UseApi();
+            //});
+
+            // 3️⃣ ثبت Workflowها و Activities از اسمبلی فعلی
+            elsa.AddActivitiesFrom<RavinaFaradidHttpApiHostModule>();
+            elsa.AddWorkflowsFrom<RavinaFaradidHttpApiHostModule>();
+
+            // 4️⃣ فعال‌سازی API و HTTP Activities
+            elsa.UseWorkflowsApi();
+            elsa.UseHttp();
+        });
     }
 
     private void ConfigureAuthentication(ServiceConfigurationContext context)
@@ -200,6 +256,8 @@ public class RavinaFaradidHttpApiHostModule : AbpModule
         app.UseCorrelationId();
         app.MapAbpStaticAssets();
         app.UseRouting();
+        app.UseWorkflowsApi(); // Use Elsa API endpoints.
+        app.UseWorkflows();
         app.UseCors();
         app.UseAuthentication();
         app.UseAbpOpenIddictValidation();
