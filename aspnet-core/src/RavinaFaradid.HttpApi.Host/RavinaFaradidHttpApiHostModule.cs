@@ -23,7 +23,6 @@ using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.Autofac;
-using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
 using Volo.Abp.Security.Claims;
 using Volo.Abp.Swashbuckle;
@@ -36,7 +35,6 @@ using Elsa.Extensions;
 using Elsa.EntityFrameworkCore.Modules.Management;
 using Elsa.EntityFrameworkCore.Extensions;
 using Elsa.EntityFrameworkCore.Modules.Runtime;
-using Elsa.Identity.Features;
 
 
 namespace RavinaFaradid;
@@ -63,6 +61,7 @@ public class RavinaFaradidHttpApiHostModule : AbpModule
             builder.AddValidation(options =>
             {
                 options.AddAudiences("RavinaFaradid");
+                options.SetIssuer("https://localhost:44397");
                 options.UseLocalServer();
                 options.UseAspNetCore();
             });
@@ -113,15 +112,10 @@ public class RavinaFaradidHttpApiHostModule : AbpModule
                     options.Audience = "RavinaFaradid"; // یا هر Audience ای که تعریف کرده‌اید
                 };
 
+                // اعطای دسترسی ادمین السا به نقش 'admin' در ABP
                 identity.UseAdminUserProvider();
             });
 
-            // میزبانی Elsa Studio
-            //elsa.UseWorkflowManagement(management =>
-            //{
-            //    // این اطمینان می‌دهد که API های استودیو فعال هستند
-            //    management.UseApi();
-            //});
 
             // 3️⃣ ثبت Workflowها و Activities از اسمبلی فعلی
             elsa.AddActivitiesFrom<RavinaFaradidHttpApiHostModule>();
@@ -131,6 +125,8 @@ public class RavinaFaradidHttpApiHostModule : AbpModule
             elsa.UseWorkflowsApi();
             elsa.UseHttp();
         });
+
+        context.Services.AddAuthorization();
     }
 
     private void ConfigureAuthentication(ServiceConfigurationContext context)
@@ -256,10 +252,13 @@ public class RavinaFaradidHttpApiHostModule : AbpModule
         app.UseCorrelationId();
         app.MapAbpStaticAssets();
         app.UseRouting();
+        app.UseAuthentication();
+        app.UseAuthorization();
+        app.UseCors();
+
         app.UseWorkflowsApi(); // Use Elsa API endpoints.
         app.UseWorkflows();
-        app.UseCors();
-        app.UseAuthentication();
+
         app.UseAbpOpenIddictValidation();
 
         if (MultiTenancyConsts.IsEnabled)

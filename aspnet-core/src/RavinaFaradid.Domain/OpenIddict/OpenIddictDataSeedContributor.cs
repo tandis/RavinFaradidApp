@@ -125,6 +125,32 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
                 clientUri: swaggerRootUrl
             );
         }
+
+        // =========================[ Elsa Workflow Client (Confidential) ]=========================
+        var elsaClientId = configurationSection["RavinaFaradid_Elsa:ClientId"];
+        if (!elsaClientId.IsNullOrWhiteSpace())
+        {
+            var elsaRootUrl = configurationSection["RavinaFaradid_Elsa:RootUrl"]?.TrimEnd('/');
+            var elsaSecret = configurationSection["RavinaFaradid_Elsa:ClientSecret"];
+
+            await CreateApplicationAsync(
+                name: elsaClientId!,
+                type: OpenIddictConstants.ClientTypes.Confidential,
+                consentType: OpenIddictConstants.ConsentTypes.Explicit,
+                displayName: "Elsa Workflow Dashboard",
+                secret: elsaSecret,
+                grantTypes: new List<string>
+                {
+                    OpenIddictConstants.GrantTypes.ClientCredentials,
+                    OpenIddictConstants.GrantTypes.AuthorizationCode,
+                    OpenIddictConstants.GrantTypes.Password,
+                    OpenIddictConstants.GrantTypes.RefreshToken
+                },
+                scopes: commonScopes,
+                redirectUri: $"{elsaRootUrl}/signin-oidc",
+                postLogoutRedirectUri: $"{elsaRootUrl}/signout-callback-oidc"
+            );
+        }
     }
 
     private async Task CreateApplicationAsync(
